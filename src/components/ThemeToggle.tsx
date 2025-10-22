@@ -19,7 +19,7 @@ const ThemeToggle = () => {
          {/* Theme Toggle */}
          <button
             onClick={toggleTheme}
-            className="p-2 rounded-lg btn-toggle transition-smooth"
+            className="p-2 rounded-sm btn-toggle transition-smooth"
          >
             {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}
          </button>

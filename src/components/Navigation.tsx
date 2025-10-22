@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Menu, X, Moon, Sun } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 
 const Navigation = () => {
@@ -38,14 +38,14 @@ const Navigation = () => {
 
    return (
       <nav
-         className={`fixed top-0 left-0 right-0 z-50 ${
+         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
             scrolled
-               ? "bg-card/95 backdrop-blur-md shadow-lg border-b border-card/20"
+               ? "bg-card/80 backdrop-blur-md shadow-lg border-b border-foreground/10"
                : "bg-transparent"
          }`}
       >
          <div className="container mx-auto px-4 sm:px-6 ">
-            <div className="flex justify-between item-center py-4">
+            <div className="flex justify-between items-center py-4">
                {/*Logo*/}
                <button
                   className="gradient-text text-2xl font-bold tracking-wide"
@@ -55,15 +55,15 @@ const Navigation = () => {
                </button>
 
                {/*Desktop Navigation*/}
-               <div className="hidden md:flex item-center space-x-6">
+               <div className="hidden md:flex items-center space-x-6">
                   {navItems.map((item) => (
                      <button
                         key={"web" + item.href}
                         onClick={() => scrollToSection(item.href)}
-                        className=" relative group nav-btn"
+                        className=" relative group text-foreground hover:text-primary transition-smooth"
                      >
                         {item.label}
-                        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-smooth duration-500"></span>
+                        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-500"></span>
                      </button>
                   ))}
                   <ThemeToggle />
@@ -99,7 +99,7 @@ const Navigation = () => {
                         <button
                            key={"mobile" + item.href}
                            onClick={() => scrollToSection(item.href)}
-                           className="w-full py-3 px-4 rounded-lg text-foreground transition-smooth text-left hover:bg-card hover:text-primary"
+                           className="w-full py-3 px-4 rounded-lg text-foreground transition-smooth text-left"
                         >
                            {item.label}
                         </button>
