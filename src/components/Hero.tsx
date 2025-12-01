@@ -77,13 +77,24 @@ const Hero = () => {
                   className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start "
                   style={{ animationDelay: "0.3s" }}
                >
-                  <button className="btn btn-primary inline-flex items-center justify-center gap-2">
+                  <button
+                     className="btn btn-primary inline-flex items-center justify-center gap-2"
+                     onClick={() => {
+                        window.open(
+                           "https://drive.google.com/uc?export=download&id=1Q70v7izRAK-UuTlBY45jiAjRZyDCxsFR",
+                           "_blank"
+                        );
+                     }}
+                  >
                      Download Resume <Download size={20} />
                   </button>
-                  <button className="btn btn-primary inline-flex items-center justify-center gap-2">
+                  <a
+                     href="#projects"
+                     className="btn btn-primary inline-flex items-center justify-center gap-2"
+                  >
                      View Projects
                      <ArrowRight size={20} />
-                  </button>
+                  </a>
                </div>
             </div>
          </div>
