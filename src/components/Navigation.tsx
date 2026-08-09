@@ -5,7 +5,6 @@ import ThemeToggle from "./ThemeToggle";
 const Navigation = () => {
    const navItems = [
       { href: "#about", label: "About" },
-      { href: "#skills", label: "Skills" },
       { href: "#projects", label: "Projects" },
       { href: "#contact", label: "Contact" },
    ];
@@ -71,7 +70,7 @@ const Navigation = () => {
                      onClick={() => scrollToSection("#contact")}
                      className="btn btn-primary font-medium transition-smooth hidden md:flex cursor-pointer"
                   >
-                     Hire Me
+                     Work With Me
                   </button>
                </div>
 

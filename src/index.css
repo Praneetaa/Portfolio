@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 @custom-variant light (&:where(.light, .light *));
 
@@ -35,6 +36,8 @@
    --color-card: oklch(1 0 0);
    --color-card-foreground: oklch(0.2 0.01 265);
    --color-muted-foreground: oklch(0.55 0.02 220);
+   --color-secondary: oklch(0.95 0.005 220);
+   --color-secondary-foreground: oklch(0.2 0.01 265);
 }
 
 @layer base {
@@ -66,16 +69,20 @@
    h4,
    h5,
    h6 {
+      font-family: "Sora", "Inter", -apple-system, BlinkMacSystemFont,
+         "Segoe UI", sans-serif;
       font-weight: 700;
-      line-height: 1.2;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
    }
 
    h1 {
-      font-size: clamp(2rem, 4vw + 1rem, 3rem);
+      font-size: clamp(2.25rem, 5vw + 1rem, 4rem);
+      font-weight: 800;
    }
 
    h2 {
-      font-size: clamp(1.75rem, 3vw + 1rem, 2.25rem);
+      font-size: clamp(1.875rem, 3.5vw + 1rem, 2.5rem);
    }
 
    h3 {
@@ -148,6 +155,19 @@
    .btn-secondary:hover {
       background-color: color-mix(in oklch, var(--color-secondary), white 20%);
    }
+
+   .btn-outline {
+      background-color: transparent;
+      color: var(--color-foreground);
+      border: 1.5px solid
+         color-mix(in oklch, var(--color-foreground), transparent 75%);
+   }
+
+   .btn-outline:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+      transform: translateY(-2px);
+   }
    .btn-inactive {
       background-color: color-mix(in oklch, var(--color-card), transparent 20%);
       border: 1px solid
@@ -167,6 +187,47 @@
          color-mix(in oklch, var(--color-card), transparent 50%);
       border-radius: var(--radius-xl);
       padding: 1.5rem;
+   }
+
+   /* Elevated variant for the one or two "hero" cards per section —
+      use sparingly so it actually reads as a highlight. */
+   .glass-card-feature {
+      background: linear-gradient(
+         160deg,
+         color-mix(in oklch, var(--color-card), transparent 5%),
+         color-mix(in oklch, var(--color-card), transparent 35%)
+      );
+      border: 1px solid
+         color-mix(in oklch, var(--color-primary), transparent 55%);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 40px
+            color-mix(in oklch, var(--color-primary), transparent 78%),
+         0 8px 32px color-mix(in oklch, var(--color-card), transparent 50%);
+      border-radius: var(--radius-xl);
+      padding: 1.5rem;
+   }
+
+   .section-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 0.75rem;
+   }
+
+   .section-kicker::before {
+      content: "";
+      width: 1.5rem;
+      height: 1.5px;
+      background: linear-gradient(
+         90deg,
+         var(--color-primary),
+         var(--color-accent)
+      );
    }
 
    .gradient-text {
@@ -189,5 +250,229 @@
 
    .transition-smooth {
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+   }
+}
+
+/* ---------- Site-wide cursor glow ---------- */
+.cursor-glow {
+   position: fixed;
+   inset: 0;
+   pointer-events: none;
+   z-index: -1;
+   opacity: 0;
+   transition: opacity 0.6s ease;
+   background: radial-gradient(
+      550px circle at var(--gx, 50%) var(--gy, 50%),
+      color-mix(in oklch, var(--color-primary), transparent 75%),
+      transparent 70%
+   );
+}
+
+.light .cursor-glow {
+   background: radial-gradient(
+      550px circle at var(--gx, 50%) var(--gy, 50%),
+      color-mix(in oklch, var(--color-primary), transparent 85%),
+      transparent 70%
+   );
+}
+
+.cursor-glow.is-active {
+   opacity: 1;
+}
+
+@keyframes float-orb {
+   0%,
+   100% {
+      transform: translate(0, 0) scale(1);
+   }
+   50% {
+      transform: translate(30px, -40px) scale(1.08);
+   }
+}
+
+.floating-orb {
+   position: absolute;
+   border-radius: 9999px;
+   filter: blur(70px);
+   pointer-events: none;
+   animation: float-orb 10s ease-in-out infinite;
+}
+
+/* Used on portfolio design images/cards to deter casual right-click-save/
+   drag-out (Behance-style). Not a real DRM measure — screenshots always
+   work — just a light deterrent. */
+.protected-img,
+.protect-content {
+   -webkit-user-select: none;
+   -moz-user-select: none;
+   user-select: none;
+   -webkit-user-drag: none;
+   -webkit-touch-callout: none;
+}
+
+/* Themed scrollbar for scrollable panels (Design Projects filter/grid, modal). */
+.custom-scrollbar {
+   scrollbar-width: thin;
+   scrollbar-color: color-mix(in oklch, var(--color-primary), transparent 30%)
+      transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+   width: 8px;
+   height: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+   background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+   background: linear-gradient(
+      180deg,
+      var(--color-primary),
+      var(--color-accent)
+   );
+   border-radius: 9999px;
+   border: 2px solid transparent;
+   background-clip: padding-box;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+   background: var(--color-primary);
+   background-clip: padding-box;
+}
+
+.protected-img {
+   pointer-events: auto;
+}
+
+@keyframes fade-in {
+   from {
+      opacity: 0;
+   }
+   to {
+      opacity: 1;
+   }
+}
+
+.animate-fade-in {
+   animation: fade-in 0.2s ease-out;
+}
+
+/* ---------- Profile picture flip ---------- */
+.flip-card-container {
+   perspective: 1200px;
+}
+
+.flip-card {
+   position: relative;
+   width: 100%;
+   height: 100%;
+   transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+   transform-style: preserve-3d;
+}
+
+.flip-card-container:hover .flip-card {
+   transform: rotateY(180deg);
+}
+
+.flip-card-face {
+   position: absolute;
+   inset: 0;
+   backface-visibility: hidden;
+   -webkit-backface-visibility: hidden;
+   border-radius: 9999px;
+   overflow: hidden;
+}
+
+.flip-card-back {
+   transform: rotateY(180deg);
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   gap: 0.5rem;
+   background: linear-gradient(
+      135deg,
+      var(--color-primary),
+      var(--color-accent)
+   );
+}
+
+/* ---------- Design projects vertical marquee ---------- */
+@keyframes scroll-up {
+   0% {
+      transform: translateY(0);
+   }
+   100% {
+      transform: translateY(-50%);
+   }
+}
+
+@keyframes scroll-down {
+   0% {
+      transform: translateY(-50%);
+   }
+   100% {
+      transform: translateY(0);
+   }
+}
+
+.marquee-col {
+   overflow: hidden;
+   -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      black 8%,
+      black 92%,
+      transparent 100%
+   );
+   mask-image: linear-gradient(
+      to bottom,
+      transparent 0,
+      black 8%,
+      black 92%,
+      transparent 100%
+   );
+}
+
+.marquee-track {
+   display: flex;
+   flex-direction: column;
+   gap: 1.25rem;
+   will-change: transform;
+}
+
+.marquee-track.dir-up {
+   animation: scroll-up linear infinite;
+}
+
+.marquee-track.dir-down {
+   animation: scroll-down linear infinite;
+}
+
+.marquee-col:hover .marquee-track {
+   animation-play-state: paused;
+}
+
+/* ---------- Scroll reveal (used by <Reveal>) ---------- */
+.reveal {
+   opacity: 0;
+   transform: translateY(28px);
+   transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1),
+      transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+   will-change: opacity, transform;
+}
+
+.reveal.is-visible {
+   opacity: 1;
+   transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+   .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
    }
 }
