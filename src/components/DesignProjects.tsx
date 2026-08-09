@@ -500,8 +500,10 @@ export default function DesignProjects() {
 
    return (
       <div className="grid md:grid-cols-[1.1fr_1fr] gap-8 md:gap-10 max-w-6xl mx-auto items-start">
-         {/* Left — two columns of designs, scrolling in opposite directions */}
-         <div className="grid grid-cols-2 gap-4 md:gap-6">
+         {/* Left — two columns of designs, scrolling in opposite directions.
+             Hidden entirely on phone (purely decorative, no room to breathe there);
+             the filter/search panel becomes the whole view on mobile. */}
+         <div className="hidden sm:grid sm:grid-cols-2 gap-4 md:gap-6">
             <div className="marquee-col h-[560px] md:h-[700px]">
                <div
                   className="marquee-track dir-up"
@@ -605,7 +607,7 @@ export default function DesignProjects() {
                )}
             </div>
 
-            <div className="custom-scrollbar grid grid-cols-2 gap-5 max-h-[560px] md:max-h-[660px] overflow-y-auto pr-1">
+            <div className="custom-scrollbar grid grid-cols-1 sm:grid-cols-2 gap-5 max-h-[560px] md:max-h-[660px] overflow-y-auto pr-1">
                {filteredPieces.map((piece, i) => (
                   <DesignCard
                      key={`filter-${piece.title}-${i}`}

@@ -7,7 +7,7 @@ export default function Projects() {
       <>
        <section id="design-projects" className="relative py-20 px-6">
             <div
-               className="floating-orb w-80 h-80 -bottom-10 -right-16"
+               className="floating-orb w-80 h-80 -bottom-10 right-0"
                style={{
                   background:
                      "color-mix(in oklch, var(--color-accent), transparent 70%)",

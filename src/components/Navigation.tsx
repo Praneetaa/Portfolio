@@ -46,18 +46,22 @@ const Navigation = () => {
          }`}
       >
          <div className="container mx-auto px-4 sm:px-6 ">
-            <div className="flex justify-between items-center py-4">
+            <div className="flex justify-between items-center py-4 gap-2">
                {/*Logo*/}
-               <button onClick={scrollToTop} aria-label="Back to top">
+               <button
+                  onClick={scrollToTop}
+                  aria-label="Back to top"
+                  className="shrink-0"
+               >
                   <img
                      src={pLogoDark}
                      alt="Praneeta Pradhan"
-                     className="dark-logo h-12 w-auto"
+                     className="dark-logo h-9 md:h-12 w-auto"
                   />
                   <img
                      src={pLogoLight}
                      alt="Praneeta Pradhan"
-                     className="light-logo h-12 w-auto"
+                     className="light-logo h-9 md:h-12 w-auto"
                   />
                </button>
 
@@ -83,15 +87,16 @@ const Navigation = () => {
                </div>
 
                {/* Mobile Menu Button */}
-               <div className="flex md:hidden items-center gap-3">
+               <div className="flex md:hidden items-center gap-2 shrink-0">
                   <ThemeToggle />
 
                   <button
                      onClick={() => setIsMenuOpen(!isMenuOpen)}
+                     aria-label={isMenuOpen ? "Close menu" : "Open menu"}
                      className="p-2 rounded-lg btn-toggle"
                   >
                      {isMenuOpen ? (
-                        <X size={24} />
+                        <X size={24} className="text-foreground" />
                      ) : (
                         <Menu size={24} className="text-foreground" />
                      )}
@@ -111,6 +116,12 @@ const Navigation = () => {
                            {item.label}
                         </button>
                      ))}
+                     <button
+                        onClick={() => scrollToSection("#contact")}
+                        className="btn btn-primary w-full font-medium transition-smooth"
+                     >
+                        Work With Me
+                     </button>
                   </div>
                </div>
             )}

@@ -57,6 +57,7 @@
 @layer base {
    html {
       scroll-behavior: smooth;
+      overflow-x: hidden;
    }
 
    body {
@@ -489,4 +490,30 @@
       transform: none;
       transition: none;
    }
+}
+
+/* ---------- react-slick overrides (Coding Projects carousel) ---------- */
+.slick-slider {
+   padding-bottom: 2.5rem;
+}
+
+.slick-dots {
+   bottom: -0.5rem;
+}
+
+.slick-dots li button:before {
+   font-size: 10px;
+   color: var(--color-muted-foreground);
+   opacity: 0.5;
+}
+
+.slick-dots li.slick-active button:before {
+   color: var(--color-primary);
+   opacity: 1;
+}
+
+.slick-prev:before,
+.slick-next:before {
+   color: var(--color-primary);
+   opacity: 0.8;
 }

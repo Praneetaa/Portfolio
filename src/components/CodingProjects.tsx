@@ -83,6 +83,7 @@ export default function CodingProjects() {
             settings: {
                slidesToShow: 1,
                infinite: projects.length > 1,
+               arrows: false,
             },
          },
       ],
@@ -150,14 +151,14 @@ function ProjectCard({ project }: ProjectCardProps) {
 
    return (
       <div
-         className={`glass-card overflow-hidden p-0 transition-smooth ${
+         className={`glass-card overflow-hidden p-0 min-h-[420px] flex flex-col transition-smooth ${
             isHovered ? "glow-effect -translate-y-2" : ""
          }`}
          onMouseEnter={() => setIsHovered(true)}
          onMouseLeave={() => setIsHovered(false)}
       >
          {/* Content */}
-         <div className="p-6">
+         <div className="p-6 flex flex-col flex-1">
             <div className="flex items-start justify-between mb-3">
                <h3 className="text-xl font-bold text-foreground flex-1 pr-2 line-clamp-1">
                   {project.name
@@ -193,25 +194,31 @@ function ProjectCard({ project }: ProjectCardProps) {
                ))}
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex gap-3 mt-auto">
                <a
                   href={project.html_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="btn btn-inactive flex-1 flex items-center justify-center gap-2"
+                  className={`btn flex items-center justify-center gap-2 ${
+                     project.homepage
+                        ? "btn-inactive flex-1"
+                        : "btn-primary w-full"
+                  }`}
                >
                   <Code size={18} />
                   <span className="text-sm font-semibold">Code</span>
                </a>
-               <a
-                  href={project.homepage || project.html_url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn btn-primary flex-1 flex items-center justify-center gap-2"
-               >
-                  <ExternalLink size={18} />
-                  <span className="text-sm font-semibold">Demo</span>
-               </a>
+               {project.homepage && (
+                  <a
+                     href={project.homepage}
+                     target="_blank"
+                     rel="noopener noreferrer"
+                     className="btn btn-primary flex-1 flex items-center justify-center gap-2"
+                  >
+                     <ExternalLink size={18} />
+                     <span className="text-sm font-semibold">Demo</span>
+                  </a>
+               )}
             </div>
          </div>
       </div>
