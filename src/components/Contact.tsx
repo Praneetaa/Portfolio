@@ -1,42 +1,84 @@
-import { Mail, Github, Linkedin, MessageSquare } from "lucide-react";
+import { useState } from "react";
+import { MessageSquare } from "lucide-react";
+import emailjs from "@emailjs/browser";
+import { socialLinks } from "../data/socialLinks";
+import Reveal from "./Reveal";
+
+
+const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID as string;
+const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string;
+const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY as string;
+
+type FormStatus = "idle" | "sending" | "success" | "error";
 
 const Contact = () => {
-   const socialLinks = [
-      {
-         icon: Mail,
-         label: "Email",
-         href: "mailto:your.email@example.com",
-         color: "hover:text-red-400",
-      },
-      {
-         icon: Github,
-         label: "GitHub",
-         href: "https://github.com/yourusername",
-         color: "hover:text-gray-400",
-      },
-      {
-         icon: Linkedin,
-         label: "LinkedIn",
-         href: "https://linkedin.com/in/yourprofile",
-         color: "hover:text-blue-400",
-      },
-   ];
+   const [formData, setFormData] = useState({
+      name: "",
+      email: "",
+      subject: "",
+      message: "",
+   });
+   const [status, setStatus] = useState<FormStatus>("idle");
+
+   const handleChange = (
+      e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+   ) => {
+      const { id, value } = e.target;
+      setFormData((prev) => ({ ...prev, [id]: value }));
+   };
+
+   const handleSubmit = async (e: React.FormEvent) => {
+      e.preventDefault();
+      setStatus("sending");
+
+      try {
+         await emailjs.send(
+            SERVICE_ID,
+            TEMPLATE_ID,
+            {
+               from_name: formData.name,
+               from_email: formData.email,
+               subject: formData.subject,
+               message: formData.message,
+               to_email: "praneetap20@gmail.com",
+            },
+            PUBLIC_KEY
+         );
+         setStatus("success");
+         setFormData({ name: "", email: "", subject: "", message: "" });
+      } catch (err) {
+         console.error("EmailJS error:", err);
+         setStatus("error");
+      }
+   };
 
    return (
       <section
          id="contact"
-         className="min-h-screen flex items-center bg-background py-10"
+         className="relative py-20 overflow-hidden"
       >
+         <div
+            className="floating-orb w-80 h-80 bottom-0 -left-20"
+            style={{
+               background:
+                  "color-mix(in oklch, var(--color-primary), transparent 65%)",
+            }}
+         />
          <div className="container-padding w-full">
-            <div className="text-center mb-12">
+            <Reveal className="text-center mb-12">
+               <span className="section-kicker justify-center">Get In Touch</span>
                <h2 className="gradient-text mb-4">Let's Connect</h2>
                <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
                   I'm excited to connect with fellow developers and collaborate
                   on projects.
                </p>
-            </div>
+            </Reveal>
 
-            <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+            <Reveal
+               as="div"
+               delay={100}
+               className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto"
+            >
                {/* Contact Info */}
                <div className="space-y-6">
                   <div className="glass-card">
@@ -87,14 +129,14 @@ const Contact = () => {
                                  backgroundColor: "var(--color-primary)",
                               }}
                            ></div>
-                           Internship opportunities
+                           Designing brand identities &amp; visuals
                         </li>
                         <li className="flex items-center gap-3">
                            <div
                               className="w-2 h-2 rounded-full"
                               style={{ backgroundColor: "var(--color-accent)" }}
                            ></div>
-                           Mentorship and guidance
+                           Building websites &amp; web apps
                         </li>
                         <li className="flex items-center gap-3">
                            <div
@@ -103,21 +145,21 @@ const Contact = () => {
                                  backgroundColor: "var(--color-primary)",
                               }}
                            ></div>
-                           Collaboration on projects
+                           Internship &amp; full-time roles
                         </li>
                         <li className="flex items-center gap-3">
                            <div
                               className="w-2 h-2 rounded-full"
                               style={{ backgroundColor: "var(--color-accent)" }}
                            ></div>
-                           Learning opportunities
+                           Freelance &amp; collaborative projects
                         </li>
                      </ul>
                   </div>
                </div>
 
                {/* Contact Form */}
-               <div className="glass-card">
+               <div className="glass-card-feature">
                   <div className="flex items-center gap-3 mb-6">
                      <MessageSquare
                         className="w-6 h-6"
@@ -128,10 +170,7 @@ const Contact = () => {
                      </h3>
                   </div>
 
-                  <form
-                     className="space-y-6"
-                     onSubmit={(e) => e.preventDefault()}
-                  >
+                  <form className="space-y-6" onSubmit={handleSubmit}>
                      <div className="space-y-4 text-left justify-start">
                         <div>
                            <label
@@ -143,6 +182,9 @@ const Contact = () => {
                            <input
                               id="name"
                               placeholder="Your name"
+                              value={formData.name}
+                              onChange={handleChange}
+                              required
                               className="w-full px-4 py-3 rounded-xl  transition-smooth text-foreground bg-card/60 border border-foreground/10"
                            />
                         </div>
@@ -158,6 +200,9 @@ const Contact = () => {
                               id="email"
                               type="email"
                               placeholder="your.email@example.com"
+                              value={formData.email}
+                              onChange={handleChange}
+                              required
                               className="w-full px-4 py-3 rounded-xl transition-smooth text-foreground bg-transparent"
                               style={{
                                  backgroundColor:
@@ -178,6 +223,9 @@ const Contact = () => {
                            <input
                               id="subject"
                               placeholder="What's this about?"
+                              value={formData.subject}
+                              onChange={handleChange}
+                              required
                               className="w-full px-4 py-3 rounded-xl transition-smooth text-foreground bg-transparent"
                               style={{
                                  backgroundColor:
@@ -199,6 +247,9 @@ const Contact = () => {
                               id="message"
                               placeholder="Tell me about your project or just say hello!"
                               rows={5}
+                              value={formData.message}
+                              onChange={handleChange}
+                              required
                               className="w-full px-4 py-3 rounded-xl transition-smooth resize-none text-foreground bg-transparent"
                               style={{
                                  backgroundColor:
@@ -212,13 +263,26 @@ const Contact = () => {
 
                      <button
                         type="submit"
-                        className="btn btn-primary w-full py-3 text-lg glow-effect"
+                        disabled={status === "sending"}
+                        className="btn btn-primary w-full py-3 text-lg glow-effect disabled:opacity-60 disabled:cursor-not-allowed"
                      >
-                        Send Message
+                        {status === "sending" ? "Sending..." : "Send Message"}
                      </button>
+
+                     {status === "success" && (
+                        <p className="text-sm text-center text-primary">
+                           Thanks for reaching out! Your message has been sent.
+                        </p>
+                     )}
+                     {status === "error" && (
+                        <p className="text-sm text-center text-red-400">
+                           Something went wrong. Please try again or email me
+                           directly.
+                        </p>
+                     )}
                   </form>
                </div>
-            </div>
+            </Reveal>
          </div>
       </section>
    );
