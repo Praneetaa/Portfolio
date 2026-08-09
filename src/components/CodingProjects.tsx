@@ -18,10 +18,17 @@ interface GitHubRepo {
 }
 const GITHUB_USERNAME = "Praneetaa";
 
+function getSlidesToShow() {
+   if (window.innerWidth < 640) return 1;
+   if (window.innerWidth < 1024) return 2;
+   return 3;
+}
+
 export default function CodingProjects() {
    const [projects, setProjects] = useState<GitHubRepo[]>([]);
    const [loading, setLoading] = useState(true);
    const [error, setError] = useState<string | null>(null);
+   const [slidesToShow, setSlidesToShow] = useState(getSlidesToShow);
 
    useEffect(() => {
       fetchProjects();
@@ -29,6 +36,12 @@ export default function CodingProjects() {
 
       // Cleanup when component unmounts
       return () => clearInterval(interval);
+   }, []);
+
+   useEffect(() => {
+      const handleResize = () => setSlidesToShow(getSlidesToShow());
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
    }, []);
 
    const fetchProjects = async () => {
@@ -63,30 +76,14 @@ export default function CodingProjects() {
 
    const sliderSettings = {
       dots: true,
-      infinite: projects.length > 3,
+      arrows: false,
+      infinite: projects.length > slidesToShow,
       speed: 500,
-      slidesToShow: 3,
+      slidesToShow,
       slidesToScroll: 1,
       autoplay: true,
       autoplaySpeed: 4000,
       pauseOnHover: true,
-      responsive: [
-         {
-            breakpoint: 1024,
-            settings: {
-               slidesToShow: 2,
-               infinite: projects.length > 2,
-            },
-         },
-         {
-            breakpoint: 640,
-            settings: {
-               slidesToShow: 1,
-               infinite: projects.length > 1,
-               arrows: false,
-            },
-         },
-      ],
    };
 
    // Loading state

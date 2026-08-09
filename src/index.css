@@ -511,9 +511,3 @@
    color: var(--color-primary);
    opacity: 1;
 }
-
-.slick-prev:before,
-.slick-next:before {
-   color: var(--color-primary);
-   opacity: 0.8;
-}
