@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
+import pLogoDark from "../assets/p-logo-dark.svg";
+import pLogoLight from "../assets/p-logo-light.svg";
 
 const Navigation = () => {
    const navItems = [
@@ -46,11 +48,17 @@ const Navigation = () => {
          <div className="container mx-auto px-4 sm:px-6 ">
             <div className="flex justify-between items-center py-4">
                {/*Logo*/}
-               <button
-                  className="gradient-text text-2xl font-bold tracking-wide"
-                  onClick={scrollToTop}
-               >
-                  Portfolio
+               <button onClick={scrollToTop} aria-label="Back to top">
+                  <img
+                     src={pLogoDark}
+                     alt="Praneeta Pradhan"
+                     className="dark-logo h-12 w-auto"
+                  />
+                  <img
+                     src={pLogoLight}
+                     alt="Praneeta Pradhan"
+                     className="light-logo h-12 w-auto"
+                  />
                </button>
 
                {/*Desktop Navigation*/}

@@ -40,6 +40,20 @@
    --color-secondary-foreground: oklch(0.2 0.01 265);
 }
 
+/* Nav logo swap: dark-mode mark shown by default, light-mode mark shown
+   once ThemeToggle adds `.light` to <html>. */
+.light-logo {
+   display: none;
+}
+
+.light .dark-logo {
+   display: none;
+}
+
+.light .light-logo {
+   display: block;
+}
+
 @layer base {
    html {
       scroll-behavior: smooth;
@@ -299,7 +313,7 @@
 }
 
 /* Used on portfolio design images/cards to deter casual right-click-save/
-   drag-out (Behance-style). Not a real DRM measure — screenshots always
+   drag-out. Not a real DRM measure — screenshots always
    work — just a light deterrent. */
 .protected-img,
 .protect-content {
