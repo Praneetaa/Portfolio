@@ -1,4 +1,5 @@
 import Navigation from "./components/Navigation";
+import { Analytics } from "@vercel/analytics/react";
 import Hero from "./components/Hero";
 import Services from "./components/Services";
 import DesignProcess from "./components/DesignProcess";
@@ -12,6 +13,7 @@ import Preloader from "./components/Preloader";
 function App() {
    return (
       <div className="min-h-screen bg-background">
+         <Analytics />
          <Preloader />
          <Navigation />
          <CursorGlow />
