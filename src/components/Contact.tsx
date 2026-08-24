@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { MessageSquare } from "lucide-react";
 import emailjs from "@emailjs/browser";
-import { socialLinks } from "../data/socialLinks";
+import { socialLinks, contactEmail } from "../data/socialLinks";
 import Reveal from "./Reveal";
-
 
 const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID as string;
 const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string;
@@ -40,7 +39,7 @@ const Contact = () => {
                from_email: formData.email,
                subject: formData.subject,
                message: formData.message,
-               to_email: "praneetap20@gmail.com",
+               to_email: contactEmail,
             },
             PUBLIC_KEY
          );
@@ -53,10 +52,7 @@ const Contact = () => {
    };
 
    return (
-      <section
-         id="contact"
-         className="relative py-20 overflow-hidden"
-      >
+      <section id="contact" className="relative py-20 overflow-hidden">
          <div
             className="floating-orb w-80 h-80 bottom-0 -left-20"
             style={{
@@ -108,8 +104,7 @@ const Contact = () => {
                                     {link.label}
                                  </p>
                                  <p className="text-sm text-muted-foreground">
-                                    Connect with me on{" "}
-                                    {link.label.toLowerCase()}
+                                    {link.detail}
                                  </p>
                               </div>
                            </a>
@@ -185,7 +180,13 @@ const Contact = () => {
                               value={formData.name}
                               onChange={handleChange}
                               required
-                              className="w-full px-4 py-3 rounded-xl  transition-smooth text-foreground bg-card/60 border border-foreground/10"
+                              className="w-full px-4 py-3 rounded-xl transition-smooth text-foreground bg-transparent"
+                              style={{
+                                 backgroundColor:
+                                    "color-mix(in oklch, var(--color-card), transparent 40%)",
+                                 border:
+                                    "1px solid color-mix(in oklch, var(--color-foreground), transparent 90%)",
+                              }}
                            />
                         </div>
 

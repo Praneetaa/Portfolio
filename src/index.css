@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap");
 @import "tailwindcss";
 @custom-variant light (&:where(.light, .light *));
 
@@ -19,8 +19,6 @@
    --color-secondary: oklch(0.35 0.03 220);
    --color-secondary-foreground: oklch(0.91 0.01 220);
    --color-accent: oklch(0.75 0.15 195);
-   --color-accent-foreground: oklch(0.24 0.02 265);
-   --color-muted: oklch(0.96 0.005 220);
 
    /* Spacing & Shape */
    --radius: 0.75rem;
@@ -238,22 +236,11 @@
       content: "";
       width: 1.5rem;
       height: 1.5px;
-      background: linear-gradient(
-         90deg,
-         var(--color-primary),
-         var(--color-accent)
-      );
+      background: var(--color-primary);
    }
 
    .gradient-text {
-      background: linear-gradient(
-         135deg,
-         var(--color-primary),
-         var(--color-accent)
-      );
-      background-clip: text;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: var(--color-primary);
    }
 }
 
@@ -342,18 +329,9 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-   background: linear-gradient(
-      180deg,
-      var(--color-primary),
-      var(--color-accent)
-   );
+   background: var(--color-primary);
    border-radius: 9999px;
    border: 2px solid transparent;
-   background-clip: padding-box;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-   background: var(--color-primary);
    background-clip: padding-box;
 }
 
@@ -387,31 +365,335 @@
    transform-style: preserve-3d;
 }
 
-.flip-card-container:hover .flip-card {
+.flip-card-container.is-flipped .flip-card {
    transform: rotateY(180deg);
 }
 
-.flip-card-face {
+/* Ensure only the currently-visible face can receive clicks — without
+   this, the rotated-away face can still intercept pointer events in some
+   browsers, making links on the back face unclickable. */
+.flip-card-container.is-flipped .id-card-face {
+   pointer-events: none;
+}
+
+.flip-card-container.is-flipped .id-card-back {
+   pointer-events: auto;
+   z-index: 5;
+}
+
+/* Hover-to-flip only on devices with a real, non-sticky hover (mouse/
+   trackpad). On touch, :hover gets "stuck" after a tap until the next
+   tap elsewhere, which fights the tap-to-flip class above and made a
+   second tap fail to flip the card back — so touch relies solely on
+   the .is-flipped class/click handler instead. */
+@media (hover: hover) and (pointer: fine) {
+   .flip-card-container:hover .flip-card {
+      transform: rotateY(180deg);
+   }
+
+   .flip-card-container:hover .id-card-face {
+      pointer-events: none;
+   }
+
+   .flip-card-container:hover .id-card-back {
+      pointer-events: auto;
+      z-index: 5;
+   }
+}
+
+/* ---------- Hero ID card ---------- */
+@keyframes id-card-drop {
+   0% {
+      transform: translateY(-180px) rotate(0deg);
+      opacity: 0;
+   }
+   40% {
+      transform: translateY(0) rotate(13deg);
+      opacity: 1;
+   }
+   55% {
+      transform: translateY(0) rotate(-9deg);
+   }
+   68% {
+      transform: translateY(0) rotate(6deg);
+   }
+   79% {
+      transform: translateY(0) rotate(-3.5deg);
+   }
+   89% {
+      transform: translateY(0) rotate(1.5deg);
+   }
+   100% {
+      transform: translateY(0) rotate(0deg);
+   }
+}
+
+.id-card-drop {
+   animation: id-card-drop 2.2s cubic-bezier(0.3, 1.4, 0.5, 1) both;
+   transform-origin: top center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+   .id-card-drop {
+      animation: none;
+   }
+}
+
+.id-card-strap {
+   position: relative;
+   z-index: 2;
+   width: 65px;
+   height: 228px;
+   margin: 0 auto -32px;
+   border-radius: 0 0 999px 999px;
+   background: #7c3aed;
+   box-shadow: -1px 0 4px rgba(0, 0, 0, 0.25);
+}
+
+.id-card-strap-text {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%) rotate(90deg);
+   transform-origin: center;
+   white-space: nowrap;
+   font-family: "Caveat", cursive;
+   font-size: 24px;
+   font-weight: 700;
+   letter-spacing: 0.25em;
+   color: #f9f9f9f9;
+   pointer-events: none;
+}
+
+.id-card-strap-dot {
+   position: absolute;
+   left: 50%;
+   bottom: 18px;
+   transform: translateX(-50%);
+   width: 24px;
+   height: 24px;
+   border-radius: 50%;
+   background: #f9f9f9f9;
+   z-index: 3;
+}
+
+.id-card-container {
+   width: 300px;
+   height: 426px;
+}
+
+.id-card-face {
    position: absolute;
    inset: 0;
    backface-visibility: hidden;
    -webkit-backface-visibility: hidden;
-   border-radius: 9999px;
+   border-radius: 18px;
+   overflow: hidden;
+   background: #f4f4f4;
+   box-shadow:
+      0 20px 50px color-mix(in oklch, var(--color-primary), transparent 75%),
+      0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+.id-card-photo-wrap {
+   position: absolute;
+   z-index: 1;
+   left: 15px;
+   top: 12px;
+   width: 275px;
+   height: 328px;
+}
+
+.id-card-photo {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+   display: block;
+}
+
+.id-card-deco {
+   position: absolute;
+   z-index: 3;
+   left: 0;
+   top: 0;
+   width: 300px;
+   height: 426px;
+   pointer-events: none;
+}
+
+.id-card-badge {
+   position: absolute;
+   left: 24px;
+   top: 24px;
+   width: 104px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   gap: 4px;
+   padding: 4px 0;
+   border-radius: 2px;
+   background: rgba(45, 212, 191, 0.85);
+   border: 1px solid rgba(249, 249, 249, 0.4);
+   color: #092634;
+   font-family: "Inter", sans-serif;
+   font-size: 8px;
+   font-weight: 700;
+   letter-spacing: 0.05em;
+   text-transform: uppercase;
+   text-align: center;
+   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.id-card-badge::before {
+   content: "";
+   width: 4px;
+   height: 4px;
+   border-radius: 50%;
+   background: #092634;
+   flex-shrink: 0;
+}
+
+.id-card-deco-sq {
+   position: absolute;
+   background: #7c3aed;
+   border-radius: 2px;
+}
+
+.id-card-deco-sq-1 {
+   width: 12px;
+   height: 12px;
+   left: 269px;
+   top: 244px;
+}
+
+.id-card-deco-sq-2 {
+   width: 8px;
+   height: 8px;
+   left: 269px;
+   top: 216px;
+}
+
+.id-card-deco-sq-3 {
+   width: 5px;
+   height: 5px;
+   left: 277px;
+   top: 228px;
+}
+
+.id-card-deco-sq-4 {
+   width: 3px;
+   height: 3px;
+   left: 271px;
+   top: 236px;
+}
+
+.id-card-deco-sq-5 {
+   width: 18px;
+   height: 18px;
+   left: 249px;
+   top: 230px;
+}
+
+.id-card-deco-sq-6 {
+   width: 5px;
+   height: 5px;
+   left: 258px;
+   top: 252px;
+}
+
+.id-card-body {
+   position: absolute;
+   z-index: 2;
+   left: 0;
+   top: 248px;
+   width: 300px;
+   height: 161px;
+   background-repeat: no-repeat, no-repeat;
+   background-position: top left, top left;
+   background-size: 100% 100%, 100% 20.5%;
+   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='875' height='469' viewBox='0 0 875 469' fill='none'%3E%3Cpath fill-rule='evenodd' clip-rule='evenodd' d='M543.052 0L875 0V469H0V93.2913H543.052V0Z' fill='%2326262F'/%3E%3C/svg%3E"),
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='875' height='96' viewBox='0 0 875 96' fill='none'%3E%3Cpath d='M0 93.5H543.31V2.5H875' stroke='%234A4560' stroke-width='5'/%3E%3C/svg%3E");
+}
+
+.id-card-name {
+   position: absolute;
+   left: 0;
+   top: 42px;
+   width: 100%;
+   font-family: "Inter", sans-serif;
+   font-size: 17px;
+   font-weight: 700;
+   line-height: 1.2;
+   text-align: center;
+   color: #2dd4bf;
+   margin: 0;
+}
+
+.id-card-role {
+   position: absolute;
+   left: 0;
+   top: 67px;
+   width: 100%;
+   font-family: "Inter", sans-serif;
+   font-size: 14px;
+   font-weight: 400;
+   line-height: 1.3;
+   text-align: center;
+   color: #2dd4bf;
+   margin: 0;
+   padding: 0 1.25rem;
+}
+
+.id-card-detail {
+   position: absolute;
+   left: 34px;
+   width: calc(100% - 48px);
+   font-family: "Inter", sans-serif;
+   font-size: 13px;
+   font-weight: 400;
+   line-height: 1.5;
+   color: rgba(249, 249, 249, 0.976);
+   margin: 0;
+   text-align: left;
+}
+
+.id-card-detail-1 {
+   top: 97px;
+}
+
+.id-card-detail-2 {
+   top: 127px;
+}
+
+.id-card-strip {
+   position: absolute;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   height: 17px;
+   background: #2dd4bf;
+   border-radius: 0 0 18px 18px;
    overflow: hidden;
 }
 
-.flip-card-back {
+.id-card-strip-highlight {
+   position: absolute;
+   inset: 0;
+   width: 57.5%;
+   height: 100%;
+   background-repeat: no-repeat;
+   background-size: 100% 100%;
+   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='503' height='49' viewBox='0 0 503 49' fill='none'%3E%3Cpath d='M0 0H502.5L435 49H49C21.938 49 0 27.062 0 0Z' fill='%235EEAD4'/%3E%3C/svg%3E");
+}
+
+.id-card-back {
    transform: rotateY(180deg);
    display: flex;
    flex-direction: column;
    align-items: center;
    justify-content: center;
    gap: 0.5rem;
-   background: linear-gradient(
-      135deg,
-      var(--color-primary),
-      var(--color-accent)
-   );
+   background: #26262f;
 }
 
 /* ---------- Design projects vertical marquee ---------- */
@@ -510,4 +792,38 @@
 .slick-dots li.slick-active button:before {
    color: var(--color-primary);
    opacity: 1;
+}
+
+.slick-prev,
+.slick-next {
+   width: 2.5rem;
+   height: 2.5rem;
+   z-index: 1;
+}
+
+.slick-prev {
+   left: -1.25rem;
+}
+
+.slick-next {
+   right: -1.25rem;
+}
+
+.slick-prev:before,
+.slick-next:before {
+   font-size: 2.5rem;
+   color: var(--color-primary);
+   opacity: 0.8;
+}
+
+.slick-prev:hover:before,
+.slick-next:hover:before {
+   opacity: 1;
+}
+
+@media (max-width: 639px) {
+   .slick-prev,
+   .slick-next {
+      display: none !important;
+   }
 }

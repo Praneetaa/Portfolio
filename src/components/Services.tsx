@@ -45,7 +45,7 @@ const services: Service[] = [
 
 const Services = () => {
    return (
-      <section id="services" className="relative py-20 px-6 overflow-hidden">
+      <section id="services" className="relative py-20 overflow-hidden">
          <div
             className="floating-orb w-72 h-72 -top-20 right-0"
             style={{

@@ -3,8 +3,8 @@ const Footer = () => {
    const year = currentDate.getFullYear();
 
    return (
-      <footer className="py-12 px-6 border-t border-gray-800">
-         <div className="container mx-auto max-w-6xl">
+      <footer className="py-12 border-t border-foreground/10">
+         <div className="container-padding">
             <div className="text-center space-y-4">
                <div className="flex items-center justify-center gap-2 text-muted-foreground">
                   <span>Built by using React, TypeScript & Tailwind CSS</span>

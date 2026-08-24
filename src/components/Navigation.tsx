@@ -7,19 +7,50 @@ import pLogoLight from "../assets/p-logo-light.svg";
 const Navigation = () => {
    const navItems = [
       { href: "#about", label: "About" },
-      { href: "#projects", label: "Projects" },
+      { href: "#services", label: "Services" },
+      { href: "#design-projects", label: "Projects" },
+      { href: "#process", label: "Process" },
       { href: "#contact", label: "Contact" },
    ];
 
    const [scrolled, setScrolled] = useState(false);
    const [isMenuOpen, setIsMenuOpen] = useState(false);
+   const [activeSection, setActiveSection] = useState("");
 
    useEffect(() => {
       const handleScroll = () => {
          setScrolled(window.scrollY > 50);
+         // Near the very top of the page, always treat "About" as active —
+         // it's the first section and starts at y=0, which is an edge case
+         // the IntersectionObserver band below doesn't reliably catch.
+         if (window.scrollY < 100) {
+            setActiveSection("#about");
+         }
       };
+      handleScroll();
       window.addEventListener("scroll", handleScroll);
       return () => window.removeEventListener("scroll", handleScroll);
+   }, []);
+
+   useEffect(() => {
+      const sections = navItems
+         .map((item) => document.querySelector(item.href))
+         .filter((el): el is Element => el !== null);
+
+      const observer = new IntersectionObserver(
+         (entries) => {
+            entries.forEach((entry) => {
+               if (entry.isIntersecting) {
+                  setActiveSection(`#${entry.target.id}`);
+               }
+            });
+         },
+         { rootMargin: "-45% 0px -45% 0px" }
+      );
+
+      sections.forEach((section) => observer.observe(section));
+      return () => observer.disconnect();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
    }, []);
 
    const scrollToTop = () => {
@@ -67,16 +98,27 @@ const Navigation = () => {
 
                {/*Desktop Navigation*/}
                <div className="hidden md:flex items-center space-x-6">
-                  {navItems.map((item) => (
-                     <button
-                        key={"web" + item.href}
-                        onClick={() => scrollToSection(item.href)}
-                        className=" relative group text-foreground hover:text-primary transition-smooth"
-                     >
-                        {item.label}
-                        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-500"></span>
-                     </button>
-                  ))}
+                  {navItems.map((item) => {
+                     const isActive = activeSection === item.href;
+                     return (
+                        <button
+                           key={"web" + item.href}
+                           onClick={() => scrollToSection(item.href)}
+                           className={`relative group transition-smooth ${
+                              isActive
+                                 ? "text-primary font-semibold"
+                                 : "text-foreground hover:text-primary"
+                           }`}
+                        >
+                           {item.label}
+                           <span
+                              className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-500 ${
+                                 isActive ? "w-full" : "w-0 group-hover:w-full"
+                              }`}
+                           ></span>
+                        </button>
+                     );
+                  })}
                   <ThemeToggle />
                   <button
                      onClick={() => scrollToSection("#contact")}
@@ -111,7 +153,11 @@ const Navigation = () => {
                         <button
                            key={"mobile" + item.href}
                            onClick={() => scrollToSection(item.href)}
-                           className="w-full py-3 px-4 rounded-lg text-foreground transition-smooth text-left"
+                           className={`w-full py-3 px-4 rounded-lg transition-smooth text-left ${
+                              activeSection === item.href
+                                 ? "text-primary font-semibold bg-card/60"
+                                 : "text-foreground"
+                           }`}
                         >
                            {item.label}
                         </button>

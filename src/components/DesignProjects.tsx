@@ -48,10 +48,9 @@ interface DesignCategory {
 interface DesignPiece {
    category: string;
    title: string;
-   gradient: string;
    image?: string;
    /** Short blurb shown in the popup — the brief + a design decision worth calling out. */
-   description: string | string[]   ;
+   description: string | string[];
    /**
     * Optional close-up/flat version to show in the popup instead of the
     * mockup shown in the grid. Falls back to `image` when not provided.
@@ -149,70 +148,70 @@ const categories: DesignCategory[] = [
  * just import the image above and add an entry to either column.
  */
 const columnA: DesignPiece[] = [
-   { category: "Flyer", title: "Ceylora Flyer", gradient: "from-emerald-500 to-teal-500", image: ceyloraFlyer, 
-      description:[ 
-   "Brand: Ceylora — a startup fashion brand launching its first designer eyewear collection.", "Purpose: Grand launch and promotional flyer designed to introduce the collection.",
-    "Visual Direction: Luxury-focused design aligned with Ceylora’s cream-and-gold brand identity.",
-    "Layout: Structured product grid to create a clean, curated presentation across different eyewear styles.",
-    "Design Approach: Balanced promotional messaging and product visuals without unnecessary distractions, maintaining a premium fashion aesthetic."
+   { category: "Flyer", title: "Ceylora Flyer", image: ceyloraFlyer, description: [
+      "Brand: Ceylora — a startup fashion brand launching its first designer eyewear collection.",
+      "Purpose: Grand launch and promotional flyer designed to introduce the collection.",
+      "Visual Direction: Luxury-focused design aligned with Ceylora’s cream-and-gold brand identity.",
+      "Layout: Structured product grid to create a clean, curated presentation across different eyewear styles.",
+      "Design Approach: Balanced promotional messaging and product visuals without unnecessary distractions, maintaining a premium fashion aesthetic."
    ], tools: ["Canva"], featured: true },
-   { category: "Business Card", title: "Denova Business Card", gradient: "from-amber-500 to-rose-500", image: denovaBizCard, description: [
+   { category: "Business Card", title: "Denova Business Card", image: denovaBizCard, description: [
     "Brand: Denova Technologies — a technology company serving clients across multiple countries.",
     "Purpose: Professional business card designed to present contact information clearly while reinforcing the brand identity.",
     "Visual Direction: Clean, modern design using Denova’s navy and white brand palette.",
     "Layout: Divided into a clear identity section and an organized contact-information section for easy scanning.",
     "Design Approach: Balanced multiple contact details without making the card feel crowded, with the geometric “D” mark used as a subtle brand signature."
   ], tools: ["Figma"] },
-   { category: "Business Card", title: "LCIC Business Card", gradient: "from-sky-500 to-indigo-500", image: lcicBizCard, description: [
+   { category: "Business Card", title: "LCIC Business Card", image: lcicBizCard, description: [
     "Brand: Language Center International College (LCIC) — an educational institution with a professional and established identity.",
     "Purpose: Business card designed to present contact information while representing LCIC in a professional way.",
     "Visual Direction: Clean and professional design using LCIC’s navy, red, and white brand colors.",
     "Layout: Organized to keep the contact details clear and easy to read while giving the brand a strong presence.",
     "Design Approach: Focused on making the card readable and distinctive, with the bold red element and LCIC crest helping the card stand out while keeping the overall design professional."
   ], tools: ["Canva"], featured: true },
-   { category: "Business Card", title: "Ceylora Business Card", gradient: "from-yellow-500 to-amber-600", image: ceyloraBizCard, description: [
+   { category: "Business Card", title: "Ceylora Business Card", image: ceyloraBizCard, description: [
       "Brand: Ceylora — the same designer eyewear startup as the launch flyer, now needing a card for in-person client meetings.",
       "Purpose: Business card for the co-founder, presenting contact details in a way that matches the brand's launch materials.",
       "Visual Direction: Elegant gold-on-white design carried directly from the flyer and logo, keeping the brand consistent across every touchpoint.",
       "Layout: Front dedicated entirely to the logo and tagline for a strong first impression; back holds the name, title, contact details, and a QR code to the store.",
       "Design Approach: Used a diagonal gold sweep on the back to echo the luxury feel of the front without repeating the exact same layout twice.",
    ], tools: ["Figma"] },
-   { category: "Certificate", title: "LCIC Certificate", gradient: "from-red-600 to-amber-600", image: lcicCertificate, description: [
+   { category: "Certificate", title: "LCIC Certificate", image: lcicCertificate, description: [
       "Brand: Language Center International College (LCIC).",
       "Purpose: Certificate of appreciation for participants of the \"SU Talk: Gender Equality\" event.",
       "Visual Direction: Formal, ceremonial design using a dark red theatre-stage aesthetic with gold accents so it feels credible and print-ready.",
       "Layout: Centered certificate structure with LCIC branding at the top, a spotlighted microphone motif, and signature lines for authenticity.",
       "Design Approach: Focused on making the certificate feel like a genuine keepsake rather than a generic template, tying the stage imagery back to the actual event.",
    ], tools: ["Canva"] },
-   { category: "Infographic", title: "LCIC Infographic", gradient: "from-orange-500 to-red-500", image: lcicInfograph, description: [
+   { category: "Infographic", title: "LCIC Infographic", image: lcicInfograph, description: [
       "Brand: LCIC.",
       "Purpose: Course-placement infographic helping students see which English course track applies to them based on their test scores.",
       "Visual Direction: Bright, color-coded, icon-led design to make a data-heavy topic easy to scan.",
       "Layout: Three parallel color-coded columns — Foundation Builder, Standard Path, Fast Track — so a student follows one path top to bottom.",
       "Design Approach: Prioritized clarity over decoration, turning a confusing set of academic rules into a simple visual decision tree.",
    ], tools: ["Canva"], featured: true },
-   { category: "Invitation", title: "LCIC Invitation Card", gradient: "from-red-700 to-rose-600", image: lcicInvitation, description: [
+   { category: "Invitation", title: "LCIC Invitation Card", image: lcicInvitation, description: [
       "Brand: LCIC.",
       "Purpose: Event invitation for the \"SU Talk: Gender Equality\" talk, inviting students to register and attend.",
       "Visual Direction: Dramatic, theatrical red-and-gold design matching the certificate made for the same event.",
       "Layout: Centered headline hierarchy with event details (date, time, location) and a QR code for registration placed prominently.",
       "Design Approach: Built as part of the same visual campaign as the certificate, including the UN SDG 5 badge to connect the talk to a larger cause.",
    ], tools: ["Canva"] },
-   { category: "Banner", title: "LCIC Roll-Up Banner", gradient: "from-orange-500 to-pink-500", image: lcicRollupBanner, description: [
+   { category: "Banner", title: "LCIC Roll-Up Banner", image: lcicRollupBanner, description: [
       "Brand: LCIC.",
       "Purpose: Exhibition/event roll-up banner promoting LCIC with the tagline \"Bridging Language, Building Confidence.\"",
       "Visual Direction: Photo-led design using real campus photography in a bold diamond-shaped collage.",
       "Layout: Photo collage at the top, tagline in the middle, and a QR code with location details at the bottom.",
       "Design Approach: Built to be read at a glance from a distance, favoring one strong photo-and-typography combination over dense text.",
    ], tools: ["Canva"] },
-   { category: "Social Media", title: "LCIC Social Media Post", gradient: "from-indigo-500 to-blue-500", image: lcicSocialPost, description: [
+   { category: "Social Media", title: "LCIC Social Media Post", image: lcicSocialPost, description: [
       "Brand: LCIC.",
       "Purpose: Announcement post for an upcoming SI Test (placement exam), sharing the date, time, room, and rules.",
       "Visual Direction: Bold, high-contrast red-and-navy design meant to stop the scroll while still reading as an official notice.",
       "Layout: Split layout — key logistics in labeled bars on one side, a real photo of students in an exam hall on the other.",
       "Design Approach: Balanced urgency (bold headline, red CTA) with clarity (clearly labeled date/time/room) so it works as both a social post and a functional notice.",
    ], tools: ["Canva"] },
-   { category: "Seal", title: "LCIC Stamp of Approval", gradient: "from-slate-500 to-gray-600", image: lcicStamp, description: [
+   { category: "Seal", title: "LCIC Stamp of Approval", image: lcicStamp, description: [
       "Brand: LCIC.",
       "Purpose: A reusable trust mark stamped onto other LCIC materials — certificates, brochures, banners — to signal official approval.",
       "Visual Direction: Monochrome badge design using a laurel wreath and crest, similar to a formal seal.",
@@ -222,70 +221,70 @@ const columnA: DesignPiece[] = [
 ];
 
 const columnB: DesignPiece[] = [
-   { category: "Brochure", title: "LCIC Trifold Brochure", gradient: "from-indigo-500 to-violet-500", image: lcicBrochure, description: [
+   { category: "Brochure", title: "LCIC Trifold Brochure", image: lcicBrochure, description: [
       "Brand: LCIC.",
       "Purpose: Full recruitment brochure introducing the language center, its mission, and its courses.",
       "Visual Direction: Consistent with LCIC's red-gold wave brand system, using real campus photography and a quote-led cover.",
       "Layout: Six-panel trifold — cover, contact panel, and QR code on the front; About Us, Mission, and course tables on the inside.",
       "Design Approach: Focused on information hierarchy, splitting a large amount of course information into three clear categories instead of one long list.",
    ], tools: ["Canva"], featured: true },
-   { category: "Website", title: "LCIC Website", gradient: "from-teal-500 to-cyan-500", image: lcicWebsite, description: [
+   { category: "Website", title: "LCIC Website", image: lcicWebsite, description: [
       "Brand: LCIC.",
       "Purpose: Official website for prospective students to learn about courses and apply.",
       "Visual Direction: Professional, credibility-focused design leading with LCIC's actual global rankings.",
       "Layout: Full-width hero banner, ranking badges beneath it, responsive across desktop, tablet, and mobile.",
       "Design Approach: Built in WordPress as a real, editable site rather than a static mockup, prioritizing trust signals above the fold.",
    ], tools: ["WordPress"], featured: true },
-   { category: "Logo", title: "Nextxus", gradient: "from-sky-500 to-blue-500", image: nextxusLogo, description: [
+   { category: "Logo", title: "Nextxus", image: nextxusLogo, description: [
       "Brand: Nextxus — a technology-oriented company.",
       "Purpose: Primary logo mark and wordmark for brand identity.",
       "Visual Direction: Modern, tech-forward mark built around motion and connectivity.",
       "Layout: An icon of four orbiting nodes crossing through a central point, paired with a bold blue wordmark below.",
       "Design Approach: The crossing orbit paths form a subtle \"X,\" tying the icon back to the brand name without spelling it out literally.",
    ], tools: ["Figma"], featured: true },
-   { category: "Logo", title: "Photography Club", gradient: "from-rose-500 to-red-500", image: photographyClubLogo, description: [
+   { category: "Logo", title: "Photography Club", image: photographyClubLogo, description: [
       "Brand: SUIC Photography — the university's photography club.",
       "Purpose: Club crest/logo representing the group on campus and on social media.",
       "Visual Direction: Formal, badge-style design similar to an academic seal, matching the club's institutional context.",
       "Layout: Circular badge with the department name arced around the top and a camera icon as the central focal point.",
       "Design Approach: Designed to stay legible and recognisable even at small icon or profile-picture size.",
    ], tools: ["Canva"] },
-   { category: "Flyer", title: "Precise Digital Flyer", gradient: "from-red-500 to-blue-600", image: preciseDigitalFlyer, description: [
+   { category: "Flyer", title: "Precise Digital Flyer", image: preciseDigitalFlyer, description: [
       "Brand: Precise Digital Economy (PDE) — an IT/technology consultancy.",
       "Purpose: Marketing flyer explaining their OT (Operational Technology) network security services to potential business clients.",
       "Visual Direction: Professional, tech-focused design using a blue gradient background with network and security iconography.",
       "Layout: Three-block structure — Key Benefits, Current Challenges, Ideal For — instead of one long paragraph, with a bold red \"SECURITY\" as the visual anchor.",
       "Design Approach: Built to be scannable for a busy decision-maker, prioritizing structure over dense technical copy.",
    ], tools: ["Canva", "Figma"] },
-   { category: "Logo", title: "Ceylora", gradient: "from-amber-500 to-yellow-600", image: ceyloraLogo, description: [
+   { category: "Logo", title: "Ceylora", image: ceyloraLogo, description: [
       "Brand: Ceylora.",
       "Purpose: Companion logo mark to the Ceylora flyer, usable standalone at icon size (favicon, social avatar).",
       "Visual Direction: Elegant, gold-on-cream luxury aesthetic matching the brand's eyewear collection.",
       "Layout: A cursive \"C\" nested inside a blockier \"C\" outline, paired with the full \"CeYlOrA\" wordmark and tagline.",
       "Design Approach: Designed for two read distances — legible as a full mark up close, still recognisable as one letterform from far away.",
    ], tools: ["Figma"] },
-   { category: "Logo", title: "Kai Flo", gradient: "from-teal-500 to-emerald-600", image: kaiFloLogo, description: [
+   { category: "Logo", title: "Kai Flo", image: kaiFloLogo, description: [
       "Brand: Kai Flo.",
       "Purpose: Primary logo mark and wordmark for brand identity.",
       "Visual Direction: Modern, minimal line-art style using a single teal color for a clean, contemporary feel.",
       "Layout: An abstract interlocking ribbon-fold icon suggesting motion and flow, paired with a simple sans-serif wordmark below.",
       "Design Approach: Kept to one color and one continuous line weight so the mark stays flexible — works equally well in single-color print or as a small app icon.",
    ], tools: ["Canva"] },
-   { category: "Website", title: "Precise Digital Website", gradient: "from-cyan-600 to-blue-700", image: preciseDigitalWebsite, description: [
+   { category: "Website", title: "Precise Digital Website", image: preciseDigitalWebsite, description: [
       "Brand: Precise Digital.",
       "Purpose: Internal dashboard UI for managing and tracking business dashboards, designed during a UI/UX internship.",
       "Visual Direction: Clean, functional enterprise SaaS design prioritizing legibility over decoration.",
       "Layout: Data-table structure with dashboard name, status, author, date, and visibility per row, responsive across desktop, tablet, and mobile.",
       "Design Approach: Reserved color for status indicators only (active/draft) so it functions as a real signal, not decoration — important in a tool used daily.",
    ], tools: ["Figma"] },
-   { category: "Website", title: "Shopify Website", gradient: "from-violet-500 to-fuchsia-500", image: shopifyWebsite, description: [
+   { category: "Website", title: "Shopify Website", image: shopifyWebsite, description: [
       "Brand: Sticker Heaven — an e-commerce brand selling decorative stickers.",
       "Purpose: Online storefront built to sell stickers and decor products to a young, playful audience.",
       "Visual Direction: Bright, colorful design led by product photography, kept simple so the products stay the focus.",
       "Layout: Hero banner, \"Limited Edition\" product grid, About Us section, and a Collections showcase.",
       "Design Approach: Built as an actual Shopify store, using a bright teal header against mostly white space so busy product photography doesn't compete with the UI.",
    ], tools: ["Shopify"] },
-   { category: "Website", title: "Spill The Tea", gradient: "from-pink-500 to-purple-500", image: spillTheTeaWebsite, description: [
+   { category: "Website", title: "Spill The Tea", image: spillTheTeaWebsite, description: [
       "Brand: Spill The Tea — a cafe concept.",
       "Purpose: Website design focused on menu browsing and table booking.",
       "Visual Direction: Warm, muted brown-and-cream palette with a hand-drawn-style logo mark, avoiding typical bright food-app colors.",
@@ -317,7 +316,7 @@ function DesignCard({
             }
          }}
       >
-         <div className="relative aspect-[4/5] overflow-hidden bg-neutral-100">
+         <div className="relative aspect-[4/5] overflow-hidden bg-black/20">
             {piece.image ? (
                <img
                   src={piece.image}
@@ -329,9 +328,7 @@ function DesignCard({
                   onContextMenu={(e) => e.preventDefault()}
                />
             ) : (
-               <div
-                  className={`w-full h-full bg-gradient-to-br ${piece.gradient} transition-transform duration-500 ease-out group-hover:scale-110`}
-               />
+               <div className="w-full h-full bg-secondary" />
             )}
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-smooth" />
             <span className="absolute bottom-2 left-2 text-white/90 font-semibold text-xs px-3 py-1 rounded-full bg-black/40 backdrop-blur-sm">
@@ -397,9 +394,7 @@ function DesignModal({
                      onContextMenu={(e) => e.preventDefault()}
                   />
                ) : (
-                  <div
-                     className={`w-full h-full bg-gradient-to-br ${piece.gradient}`}
-                  />
+                  <div className="w-full h-full bg-secondary" />
                )}
             </div>
 

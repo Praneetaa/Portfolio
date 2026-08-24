@@ -28,17 +28,19 @@ const events: TimelineEvent[] = [
 
 const Timeline = () => {
    return (
-      <section className="relative py-10 overflow-hidden">
+      <section className="relative pt-10 pb-4 overflow-hidden">
          <div className="container-padding">
             <Reveal className="text-center mb-8">
-               <span className="section-kicker justify-center">
-                  My Journey
-               </span>
+               <span className="section-kicker justify-center">Timeline</span>
+               <h2 className="gradient-text mb-4">My Journey</h2>
+               <p className="text-muted-foreground">
+                  A quick look at where I've been and what's next
+               </p>
             </Reveal>
 
             <Reveal delay={100} className="relative max-w-5xl mx-auto">
                {/* Connecting line */}
-               <div className="hidden md:block absolute left-0 right-0 top-[7px] h-px bg-gradient-to-r from-primary via-accent to-primary opacity-40" />
+               <div className="hidden md:block absolute left-0 right-0 top-[7px] h-px bg-primary opacity-40" />
 
                <div className="flex overflow-x-auto md:overflow-visible gap-10 md:gap-4 pb-4 md:pb-0 md:justify-between snap-x">
                   {events.map((event, i) => {
@@ -48,14 +50,14 @@ const Timeline = () => {
                            key={i}
                            className="relative flex-shrink-0 w-36 md:w-auto md:flex-1 flex flex-col items-center text-center snap-start"
                         >
-                           <span className="relative flex items-center justify-center">
+                           <span className="relative flex items-center justify-center w-7 h-7">
                               {isLatest && (
                                  <>
-                                    <span className="absolute w-7 h-7 rounded-full bg-accent/40 animate-ping" />
-                                    <span className="absolute w-6 h-6 rounded-full ring-2 ring-accent" />
+                                    <span className="absolute inset-0 rounded-full bg-accent/40 animate-ping" />
+                                    <span className="absolute inset-0 m-auto w-6 h-6 rounded-full ring-2 ring-accent" />
                                  </>
                               )}
-                              <span className="relative w-3.5 h-3.5 rounded-full bg-gradient-to-br from-primary to-accent ring-4 ring-background" />
+                              <span className="relative w-3.5 h-3.5 rounded-full bg-primary ring-4 ring-background" />
                            </span>
                            <span className="mt-3 font-bold text-primary text-sm">
                               {event.year}

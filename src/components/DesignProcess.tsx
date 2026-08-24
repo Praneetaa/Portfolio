@@ -51,7 +51,7 @@ const steps: ProcessStep[] = [
 
 const DesignProcess = () => {
    return (
-      <section id="process" className="relative py-20 px-6 overflow-hidden">
+      <section id="process" className="relative py-20 overflow-hidden">
          <div
             className="floating-orb w-72 h-72 -top-10 -left-16"
             style={{

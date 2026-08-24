@@ -5,7 +5,7 @@ import Reveal from "./Reveal";
 export default function Projects() {
    return (
       <>
-       <section id="design-projects" className="relative py-20 px-6">
+         <section id="design-projects" className="relative py-20">
             <div
                className="floating-orb w-80 h-80 -bottom-10 right-0"
                style={{
@@ -25,7 +25,7 @@ export default function Projects() {
             </div>
          </section>
 
-         <section id="projects" className="relative py-20 px-6 overflow-hidden">
+         <section id="projects" className="relative py-20 overflow-hidden">
             <div
                className="floating-orb w-72 h-72 -top-10 -left-10"
                style={{
@@ -44,8 +44,6 @@ export default function Projects() {
                <CodingProjects />
             </div>
          </section>
-
-        
       </>
    );
 }

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { ExternalLink, Code } from "lucide-react";
+import { ExternalLink, Code, AlertTriangle } from "lucide-react";
 import { SiGithub } from "react-icons/si";
 
 // Define the type
@@ -76,7 +76,7 @@ export default function CodingProjects() {
 
    const sliderSettings = {
       dots: true,
-      arrows: false,
+      arrows: true,
       infinite: projects.length > slidesToShow,
       speed: 500,
       slidesToShow,
@@ -89,8 +89,15 @@ export default function CodingProjects() {
    // Loading state
    if (loading) {
       return (
-         <div className="flex items-center justify-center py-24">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+         <div
+            className="grid gap-6"
+            style={{
+               gridTemplateColumns: `repeat(${slidesToShow}, minmax(0, 1fr))`,
+            }}
+         >
+            {Array.from({ length: slidesToShow }).map((_, i) => (
+               <ProjectCardSkeleton key={i} />
+            ))}
          </div>
       );
    }
@@ -98,12 +105,30 @@ export default function CodingProjects() {
    // Error state
    if (error) {
       return (
-         <div className="flex items-center justify-center p-8">
-            <div className="glass-card max-w-md">
-               <p className="text-red-400">Error: {error}</p>
-               <button onClick={fetchProjects} className="btn btn-primary mt-4">
-                  Try Again
-               </button>
+         <div className="flex items-center justify-center py-12">
+            <div className="glass-card max-w-md text-center">
+               <AlertTriangle size={28} className="mx-auto mb-3 text-red-400" />
+               <p className="font-semibold text-foreground mb-1">
+                  Couldn't load projects
+               </p>
+               <p className="text-sm text-muted-foreground mb-5">
+                  GitHub's API may be temporarily rate-limited. Try again, or
+                  view my work directly on GitHub.
+               </p>
+               <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                  <button onClick={fetchProjects} className="btn btn-primary">
+                     Try Again
+                  </button>
+                  <a
+                     href={`https://github.com/${GITHUB_USERNAME}`}
+                     target="_blank"
+                     rel="noopener noreferrer"
+                     className="btn btn-outline inline-flex items-center justify-center gap-2"
+                  >
+                     <SiGithub size={16} />
+                     View on GitHub
+                  </a>
+               </div>
             </div>
          </div>
       );
@@ -139,6 +164,26 @@ export default function CodingProjects() {
       </div>
    );
 }
+function ProjectCardSkeleton() {
+   return (
+      <div className="glass-card min-h-[420px] flex flex-col animate-pulse">
+         <div className="flex items-start justify-between mb-3">
+            <div className="h-6 w-2/3 rounded bg-secondary" />
+            <div className="h-5 w-20 rounded-full bg-secondary" />
+         </div>
+         <div className="space-y-2 mb-5">
+            <div className="h-3 w-full rounded bg-secondary" />
+            <div className="h-3 w-4/5 rounded bg-secondary" />
+         </div>
+         <div className="flex gap-2 mb-5">
+            <div className="h-6 w-16 rounded-md bg-secondary" />
+            <div className="h-6 w-16 rounded-md bg-secondary" />
+         </div>
+         <div className="mt-auto h-10 w-full rounded-lg bg-secondary" />
+      </div>
+   );
+}
+
 interface ProjectCardProps {
    project: GitHubRepo;
 }
