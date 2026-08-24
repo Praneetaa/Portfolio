@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowRight, FileText, Mail, Code2, Palette } from "lucide-react";
+import { ArrowRight, FileText, Mail, Check, Code2, Palette } from "lucide-react";
 import {
    SiHtml5,
    SiCss,
@@ -130,6 +130,13 @@ const technicalSkills: Record<TabType, SkillGroup[]> = {
 const Hero = () => {
    const [activeTab, setActiveTab] = useState<TabType>("Frontend");
    const [isCardFlipped, setIsCardFlipped] = useState(false);
+   const [emailCopied, setEmailCopied] = useState(false);
+
+   const copyEmail = () => {
+      navigator.clipboard.writeText(contactEmail);
+      setEmailCopied(true);
+      setTimeout(() => setEmailCopied(false), 2000);
+   };
 
    return (
       <>
@@ -270,10 +277,14 @@ const Hero = () => {
 
                   <a
                      href={`mailto:${contactEmail}`}
+                     onClick={(e) => {
+                        e.preventDefault();
+                        copyEmail();
+                     }}
                      className="inline-flex items-center gap-2 text-muted-foreground hover:text-primary transition-smooth mb-8"
                   >
-                     <Mail size={18} />
-                     {contactEmail}
+                     {emailCopied ? <Check size={18} /> : <Mail size={18} />}
+                     {emailCopied ? "Copied to clipboard!" : contactEmail}
                   </a>
 
                   <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
