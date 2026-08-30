@@ -260,7 +260,7 @@ const columnB: DesignPiece[] = [
       "Brand: Ceylora is a startup fashion brand.",
       "Purpose: Primary logo mark, usable standalone at icon size (favicon, social avatar).",
       "Visual Direction: Elegant, gold-on-cream luxury aesthetic matching the brand's eyewear collection.",
-      "Layout: A cursive \"C\" nested inside a blockier \"C\" outline, paired with the full \"CeYlOrA\" wordmark and tagline.",
+      "Layout: A cursive \"L\" nested inside a blockier \"C\" outline, paired with the full \"CeYlOrA\" wordmark and tagline.",
       "Design Approach: I designed it for two read distances, so it stays legible as a full mark up close and still recognisable as one letterform from far away.",
    ], tools: ["Figma"] },
    { category: "Logo", title: "Kai Flo", image: kaiFloLogo, description: [
