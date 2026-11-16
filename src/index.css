@@ -1,41 +1,51 @@
-@import url("https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Inter:wght@400;500;600;700&family=Caveat:wght@600;700&display=swap");
 @import "tailwindcss";
 @custom-variant light (&:where(.light, .light *));
 
-/* Dark Portfolio Theme — DEFAULT */
+/* Dark Portfolio Theme — DEFAULT
+   Near-black with a hint of violet, solid surfaces, purple used as an
+   accent only (it's the brand colour from the logo and ID card strap). */
 @theme {
    /* Colors - Background */
-   --color-background: oklch(0.24 0.02 265);
-   --color-card: oklch(0.15 0.04 230);
+   --color-background: oklch(0.165 0.008 290);
+   --color-card: oklch(0.21 0.01 290);
 
    /* Colors - Foreground/Text */
-   --color-foreground: oklch(0.91 0.01 220);
-   --color-card-foreground: oklch(0.91 0.01 220);
-   --color-muted-foreground: oklch(0.55 0.02 220);
+   --color-foreground: oklch(0.95 0.005 290);
+   --color-card-foreground: oklch(0.95 0.005 290);
+   --color-muted-foreground: oklch(0.7 0.012 290);
 
    /* Colors - Brand */
-   --color-primary: oklch(0.58 0.24 290);
-   --color-primary-foreground: oklch(0.98 0.005 220);
-   --color-secondary: oklch(0.35 0.03 220);
-   --color-secondary-foreground: oklch(0.91 0.01 220);
-   --color-accent: oklch(0.75 0.15 195);
+   --color-primary: oklch(0.62 0.22 293);
+   --color-primary-foreground: oklch(0.99 0.005 290);
+   --color-secondary: oklch(0.27 0.012 290);
+   --color-secondary-foreground: oklch(0.95 0.005 290);
+   --color-accent: oklch(0.82 0.12 180);
+   --color-border: oklch(1 0 0 / 0.1);
 
    /* Spacing & Shape */
    --radius: 0.75rem;
    --radius-sm: 0.5rem;
    --radius-lg: 1rem;
-   --radius-xl: 1.5rem;
+   --radius-xl: 1rem;
+   --radius-btn: 10px; /* ~20% of a standard 48px-tall button */
+
+   --font-display: "Bricolage Grotesque", "Inter", system-ui, sans-serif;
+   --font-hand: "Caveat", cursive;
 }
 
-/* Light theme override with proper selector */
+/* Light theme: warm paper instead of stark white */
 .light {
-   --color-background: oklch(1 0 0);
-   --color-foreground: oklch(0.2 0.01 265);
-   --color-card: oklch(1 0 0);
-   --color-card-foreground: oklch(0.2 0.01 265);
-   --color-muted-foreground: oklch(0.55 0.02 220);
-   --color-secondary: oklch(0.95 0.005 220);
-   --color-secondary-foreground: oklch(0.2 0.01 265);
+   --color-background: oklch(0.975 0.006 85);
+   --color-foreground: oklch(0.2 0.012 290);
+   --color-card: oklch(0.995 0.003 85);
+   --color-card-foreground: oklch(0.2 0.012 290);
+   --color-muted-foreground: oklch(0.47 0.015 290);
+   --color-primary: oklch(0.55 0.23 293);
+   --color-secondary: oklch(0.93 0.008 85);
+   --color-secondary-foreground: oklch(0.2 0.012 290);
+   --color-accent: oklch(0.55 0.11 185);
+   --color-border: oklch(0.2 0.012 290 / 0.12);
 }
 
 /* Nav logo swap: dark-mode mark shown by default, light-mode mark shown
@@ -55,7 +65,7 @@
 @layer base {
    html {
       scroll-behavior: smooth;
-      overflow-x: hidden;
+      overflow-x: clip;
    }
 
    body {
@@ -69,7 +79,7 @@
       padding: 0;
       width: 100%;
       text-align: center;
-      overflow-x: hidden;
+      overflow-x: clip;
    }
 
    section {
@@ -82,11 +92,10 @@
    h4,
    h5,
    h6 {
-      font-family: "Sora", "Inter", -apple-system, BlinkMacSystemFont,
-         "Segoe UI", sans-serif;
+      font-family: var(--font-display);
       font-weight: 700;
-      line-height: 1.15;
-      letter-spacing: -0.02em;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
    }
 
    h1 {
@@ -95,7 +104,8 @@
    }
 
    h2 {
-      font-size: clamp(1.875rem, 3.5vw + 1rem, 2.5rem);
+      font-size: clamp(2.25rem, 4vw + 1rem, 3.5rem);
+      font-weight: 800;
    }
 
    h3 {
@@ -144,7 +154,7 @@
    .btn {
       padding: 0.75rem 1.5rem;
       font-size: 1rem;
-      border-radius: var(--radius-xl);
+      border-radius: var(--radius-btn);
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       font-weight: 500;
    }
@@ -155,9 +165,8 @@
    }
 
    .btn-primary:hover {
-      box-shadow: 0 0 40px
-         color-mix(in oklch, var(--color-primary), transparent 50%);
-      transform: scale(1.05);
+      background-color: color-mix(in oklch, var(--color-primary), white 12%);
+      transform: translateY(-2px);
    }
 
    .btn-secondary {
@@ -191,33 +200,92 @@
       background-color: color-mix(in oklch, var(--color-card), transparent 10%);
    }
 
+   /* Icon-only buttons in the nav (theme toggle, mobile menu). */
+   .btn-toggle {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-foreground);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+   }
+
+   .btn-toggle:hover {
+      color: var(--color-primary);
+      background-color: color-mix(in oklch, var(--color-primary), transparent 85%);
+   }
+
+   .btn-toggle:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+   }
+
+   /* Solid surface card (class name kept so existing markup still works). */
    .glass-card {
-      background-color: color-mix(in oklch, var(--color-card), transparent 20%);
-      border: 1px solid
-         color-mix(in oklch, var(--color-foreground), transparent 90%);
-      backdrop-filter: blur(20px);
-      box-shadow: 0 8px 32px
-         color-mix(in oklch, var(--color-card), transparent 50%);
+      background-color: var(--color-card);
+      border: 1px solid var(--color-border);
       border-radius: var(--radius-xl);
       padding: 1.5rem;
    }
 
-   /* Elevated variant for the one or two "hero" cards per section —
-      use sparingly so it actually reads as a highlight. */
+   /* Highlighted card: same surface, purple edge and a hard offset shadow
+      instead of a soft glow. Use sparingly. */
    .glass-card-feature {
-      background: linear-gradient(
-         160deg,
-         color-mix(in oklch, var(--color-card), transparent 5%),
-         color-mix(in oklch, var(--color-card), transparent 35%)
-      );
+      background-color: var(--color-card);
       border: 1px solid
-         color-mix(in oklch, var(--color-primary), transparent 55%);
-      backdrop-filter: blur(20px);
-      box-shadow: 0 8px 40px
-            color-mix(in oklch, var(--color-primary), transparent 78%),
-         0 8px 32px color-mix(in oklch, var(--color-card), transparent 50%);
+         color-mix(in oklch, var(--color-primary), transparent 40%);
+      box-shadow: 6px 6px 0
+         color-mix(in oklch, var(--color-primary), transparent 75%);
       border-radius: var(--radius-xl);
       padding: 1.5rem;
+   }
+
+   /* ---- Section header: "01 ———— LABEL" rule, then a big left heading ---- */
+   .section-rule {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-muted-foreground);
+      margin-bottom: 1.25rem;
+   }
+
+   .section-rule::after {
+      content: "";
+      order: 1;
+      flex: 1;
+      height: 1px;
+      background: var(--color-border);
+   }
+
+   .section-rule-num {
+      color: var(--color-primary);
+      font-variant-numeric: tabular-nums;
+   }
+
+   .section-rule-label {
+      order: 2;
+   }
+
+   /* Handwritten margin note, same voice as the ID card strap. */
+   .hand-note {
+      font-family: var(--font-hand);
+      font-weight: 700;
+      font-size: 1.5rem;
+      line-height: 1.1;
+      color: var(--color-primary);
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 0.35rem;
+      transform: rotate(-4deg);
+      transform-origin: left bottom;
+   }
+
+   /* Old helper kept for compatibility: headings are now plain foreground. */
+   .gradient-text {
+      color: var(--color-foreground);
    }
 
    .section-kicker {
@@ -226,78 +294,24 @@
       gap: 0.5rem;
       font-size: 0.75rem;
       font-weight: 600;
-      letter-spacing: 0.2em;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--color-accent);
+      color: var(--color-muted-foreground);
       margin-bottom: 0.75rem;
-   }
-
-   .section-kicker::before {
-      content: "";
-      width: 1.5rem;
-      height: 1.5px;
-      background: var(--color-primary);
-   }
-
-   .gradient-text {
-      color: var(--color-primary);
    }
 }
 
 @layer utilities {
+   /* Hover highlight: a crisp purple outline rather than a blurry glow. */
    .glow-effect {
-      box-shadow: 0 0 40px
-         color-mix(in oklch, var(--color-primary), transparent 70%);
+      border-color: color-mix(in oklch, var(--color-primary), transparent 35%);
+      box-shadow: 0 0 0 1px
+         color-mix(in oklch, var(--color-primary), transparent 35%);
    }
 
    .transition-smooth {
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
    }
-}
-
-/* ---------- Site-wide cursor glow ---------- */
-.cursor-glow {
-   position: fixed;
-   inset: 0;
-   pointer-events: none;
-   z-index: 0;
-   opacity: 0;
-   transition: opacity 0.6s ease;
-   background: radial-gradient(
-      550px circle at var(--gx, 50%) var(--gy, 50%),
-      color-mix(in oklch, var(--color-primary), transparent 75%),
-      transparent 70%
-   );
-}
-
-.light .cursor-glow {
-   background: radial-gradient(
-      550px circle at var(--gx, 50%) var(--gy, 50%),
-      color-mix(in oklch, var(--color-primary), transparent 85%),
-      transparent 70%
-   );
-}
-
-.cursor-glow.is-active {
-   opacity: 1;
-}
-
-@keyframes float-orb {
-   0%,
-   100% {
-      transform: translate(0, 0) scale(1);
-   }
-   50% {
-      transform: translate(30px, -40px) scale(1.08);
-   }
-}
-
-.floating-orb {
-   position: absolute;
-   border-radius: 9999px;
-   filter: blur(70px);
-   pointer-events: none;
-   animation: float-orb 10s ease-in-out infinite;
 }
 
 /* Used on portfolio design images/cards to deter casual right-click-save/
@@ -696,62 +710,6 @@
    background: #26262f;
 }
 
-/* ---------- Design projects vertical marquee ---------- */
-@keyframes scroll-up {
-   0% {
-      transform: translateY(0);
-   }
-   100% {
-      transform: translateY(-50%);
-   }
-}
-
-@keyframes scroll-down {
-   0% {
-      transform: translateY(-50%);
-   }
-   100% {
-      transform: translateY(0);
-   }
-}
-
-.marquee-col {
-   overflow: hidden;
-   -webkit-mask-image: linear-gradient(
-      to bottom,
-      transparent 0,
-      black 8%,
-      black 92%,
-      transparent 100%
-   );
-   mask-image: linear-gradient(
-      to bottom,
-      transparent 0,
-      black 8%,
-      black 92%,
-      transparent 100%
-   );
-}
-
-.marquee-track {
-   display: flex;
-   flex-direction: column;
-   gap: 1.25rem;
-   will-change: transform;
-}
-
-.marquee-track.dir-up {
-   animation: scroll-up linear infinite;
-}
-
-.marquee-track.dir-down {
-   animation: scroll-down linear infinite;
-}
-
-.marquee-col:hover .marquee-track {
-   animation-play-state: paused;
-}
-
 /* ---------- Scroll reveal (used by <Reveal>) ---------- */
 .reveal {
    opacity: 0;
@@ -825,5 +783,118 @@
    .slick-prev,
    .slick-next {
       display: none !important;
+   }
+}
+/* ---------- Design projects pinboard ---------- */
+/* A dotted designer's mat; prints are pinned on with tape. */
+.pin-board {
+   border: 1px solid var(--color-border);
+   border-radius: 1.25rem;
+   padding: 3rem 1.5rem 0.5rem;
+   background-color: color-mix(in oklch, var(--color-card), black 12%);
+   background-image: radial-gradient(
+      color-mix(in oklch, var(--color-foreground), transparent 86%) 1px,
+      transparent 1.2px
+   );
+   background-size: 22px 22px;
+}
+
+.light .pin-board {
+   background-color: var(--color-secondary);
+}
+
+@media (min-width: 1024px) {
+   .pin-board {
+      padding: 3.5rem 2.75rem 1rem;
+   }
+}
+
+/* Paper print */
+.pin-card {
+   position: relative;
+   background: #fbfaf6;
+   padding: 10px 10px 0;
+   border-radius: 3px;
+   box-shadow:
+      0 10px 24px rgba(0, 0, 0, 0.35),
+      0 2px 5px rgba(0, 0, 0, 0.25);
+   transform: rotate(var(--tilt, 0deg));
+   transition:
+      transform 0.4s cubic-bezier(0.3, 1.4, 0.5, 1),
+      box-shadow 0.3s ease;
+}
+
+.light .pin-card {
+   box-shadow:
+      0 10px 22px rgba(40, 30, 60, 0.16),
+      0 2px 5px rgba(40, 30, 60, 0.12);
+}
+
+.pin-card:hover,
+.pin-card:focus-visible {
+   transform: rotate(0deg) translateY(-6px) scale(1.03);
+   box-shadow:
+      0 24px 44px rgba(0, 0, 0, 0.45),
+      0 4px 10px rgba(0, 0, 0, 0.25);
+   z-index: 2;
+   outline: none;
+}
+
+.pin-card:focus-visible {
+   box-shadow:
+      0 0 0 3px var(--color-primary),
+      0 24px 44px rgba(0, 0, 0, 0.45);
+}
+
+/* Strip of tape holding the print */
+.pin-tape {
+   position: absolute;
+   top: -13px;
+   left: 50%;
+   width: 88px;
+   height: 26px;
+   transform: translateX(-50%) rotate(var(--tape-tilt, 0deg));
+   background: var(--tape-color, rgba(255, 255, 255, 0.6));
+   opacity: 0.82;
+   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+   /* torn-edge feel */
+   clip-path: polygon(
+      2% 0, 98% 4%, 100% 50%, 97% 100%, 3% 96%, 0 50%
+   );
+}
+
+/* Handwritten caption on the paper */
+.pin-label {
+   font-family: var(--font-hand);
+   font-weight: 700;
+   font-size: 1.4rem;
+   line-height: 1.1;
+   color: #2b2540;
+   text-align: center;
+   padding: 0.45rem 0.25rem 0.6rem;
+}
+
+/* Re-pin animation when switching tabs */
+@keyframes pin-drop {
+   from {
+      opacity: 0;
+      transform: translateY(-18px);
+   }
+   to {
+      opacity: 1;
+      transform: translateY(0);
+   }
+}
+
+.pin-drop {
+   animation: pin-drop 0.45s cubic-bezier(0.3, 1.3, 0.5, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+   .pin-drop {
+      animation: none;
+   }
+   .pin-card {
+      transition: none;
    }
 }

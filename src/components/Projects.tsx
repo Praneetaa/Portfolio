@@ -1,46 +1,33 @@
 import CodingProjects from "./CodingProjects";
 import DesignProjects from "./DesignProjects";
-import Reveal from "./Reveal";
+import UIUXProjects from "./UIUXProjects";
+import LiveSites from "./LiveSites";
+import SectionHeader from "./SectionHeader";
 
 export default function Projects() {
    return (
       <>
-         <section id="design-projects" className="relative py-20">
-            <div
-               className="floating-orb w-80 h-80 -bottom-10 right-0"
-               style={{
-                  background:
-                     "color-mix(in oklch, var(--color-accent), transparent 70%)",
-               }}
-            />
+         <section id="uiux-projects" className="relative py-20 overflow-hidden">
             <div className="container-padding">
-               <Reveal className="text-center mb-16">
-                  <span className="section-kicker justify-center">Portfolio</span>
-                  <h2 className="gradient-text mb-4">Design Projects</h2>
-                  <p className="text-muted-foreground">
-                     A look at my branding and print design work
-                  </p>
-               </Reveal>
+               <SectionHeader number="05" label="UI/UX" title="UI/UX projects" subtitle="Interfaces I've designed, and the thinking behind them" note="every screen designed by me" />
+               <UIUXProjects />
+            </div>
+         </section>
+
+         <section id="design-projects" className="relative py-20">
+            <div className="container-padding">
+               <SectionHeader number="06" label="Graphic design" title="Design projects" subtitle="Branding, print and digital pieces for brands, events and startups." note="tap one for the story" />
                <DesignProjects />
             </div>
          </section>
 
          <section id="projects" className="relative py-20 overflow-hidden">
-            <div
-               className="floating-orb w-72 h-72 -top-10 -left-10"
-               style={{
-                  background:
-                     "color-mix(in oklch, var(--color-primary), transparent 68%)",
-               }}
-            />
             <div className="container-padding">
-               <Reveal className="text-center mb-16">
-                  <span className="section-kicker justify-center">Portfolio</span>
-                  <h2 className="gradient-text mb-4">Coding Projects</h2>
-                  <p className="text-muted-foreground">
-                     Showcasing my latest work from GitHub
-                  </p>
-               </Reveal>
+               <SectionHeader number="07" label="Built & shipped" title="Websites & code" subtitle="Live websites I've worked on, plus my latest code on GitHub." />
+               <LiveSites />
+               <p className="max-w-6xl mx-auto text-xs font-semibold uppercase tracking-wider text-accent mb-5 text-left">
+                  Latest on GitHub
+               </p>
                <CodingProjects />
             </div>
          </section>

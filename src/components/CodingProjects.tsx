@@ -32,7 +32,12 @@ export default function CodingProjects() {
 
    useEffect(() => {
       fetchProjects();
-      const interval = setInterval(fetchProjects, 5 * 60 * 1000);
+      // Background refresh: update data silently so the carousel isn't
+      // torn down and replaced by skeletons every 5 minutes.
+      const interval = setInterval(
+         () => fetchProjects({ silent: true }),
+         5 * 60 * 1000
+      );
 
       // Cleanup when component unmounts
       return () => clearInterval(interval);
@@ -44,9 +49,9 @@ export default function CodingProjects() {
       return () => window.removeEventListener("resize", handleResize);
    }, []);
 
-   const fetchProjects = async () => {
+   const fetchProjects = async ({ silent = false } = {}) => {
       try {
-         setLoading(true);
+         if (!silent) setLoading(true);
 
          const response = await fetch(
             `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=10`
@@ -66,9 +71,11 @@ export default function CodingProjects() {
          setProjects(sorted);
          setError(null);
       } catch (err) {
+         console.error("❌ Error:", err);
+         // A failed background refresh keeps the projects already on screen.
+         if (silent) return;
          const message = err instanceof Error ? err.message : "Unknown error";
          setError(message);
-         console.error("❌ Error:", err);
       } finally {
          setLoading(false);
       }
@@ -116,7 +123,7 @@ export default function CodingProjects() {
                   view my work directly on GitHub.
                </p>
                <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                  <button onClick={fetchProjects} className="btn btn-primary">
+                  <button onClick={() => fetchProjects()} className="btn btn-primary">
                      Try Again
                   </button>
                   <a
@@ -143,7 +150,7 @@ export default function CodingProjects() {
          ) : (
             <Slider {...sliderSettings}>
                {projects.map((project) => (
-                  <div key={project.id} className="px-3">
+                  <div key={project.id} className="px-3 pt-2 pb-3">
                      <ProjectCard project={project} />
                   </div>
                ))}
@@ -164,9 +171,18 @@ export default function CodingProjects() {
       </div>
    );
 }
+/** "spill_the-tea_cafe" → "Spill The Tea Cafe" */
+function formatRepoName(name: string) {
+   return name
+      .split(/[-_]+/)
+      .filter(Boolean)
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
+}
+
 function ProjectCardSkeleton() {
    return (
-      <div className="glass-card min-h-[420px] flex flex-col animate-pulse">
+      <div className="glass-card min-h-[260px] flex flex-col animate-pulse">
          <div className="flex items-start justify-between mb-3">
             <div className="h-6 w-2/3 rounded bg-secondary" />
             <div className="h-5 w-20 rounded-full bg-secondary" />
@@ -190,48 +206,46 @@ interface ProjectCardProps {
 
 function ProjectCard({ project }: ProjectCardProps) {
    const [isHovered, setIsHovered] = useState(false);
+   // Language first, then up to 3 topics, without duplicates
+   // (a repo's topic is often the same as its language).
+   const tags = [project.language, ...(project.topics ?? []).slice(0, 3)]
+      .filter((t): t is string => !!t)
+      .filter(
+         (t, i, all) =>
+            all.findIndex((x) => x.toLowerCase() === t.toLowerCase()) === i
+      );
 
    return (
       <div
-         className={`glass-card overflow-hidden p-0 min-h-[420px] flex flex-col transition-smooth ${
-            isHovered ? "glow-effect -translate-y-2" : ""
+         className={`glass-card overflow-hidden p-0 min-h-[260px] flex flex-col text-left transition-smooth ${
+            isHovered ? "glow-effect -translate-y-1" : ""
          }`}
          onMouseEnter={() => setIsHovered(true)}
          onMouseLeave={() => setIsHovered(false)}
       >
          {/* Content */}
          <div className="p-6 flex flex-col flex-1">
-            <div className="flex items-start justify-between mb-3">
-               <h3 className="text-xl font-bold text-foreground flex-1 pr-2 line-clamp-1">
-                  {project.name
-                     .split("-")
-                     .map(
-                        (word) => word.charAt(0).toUpperCase() + word.slice(1)
-                     )
-                     .join(" ")}
-               </h3>
-               <span className="flex-shrink-0 px-3 py-1 text-xs font-medium rounded-full bg-accent/20 text-accent border border-accent/30">
-                  Completed
-               </span>
-            </div>
+            <h3 className="text-xl font-bold text-foreground mt-0 mb-2 line-clamp-1">
+               {formatRepoName(project.name)}
+            </h3>
 
-            <p className="text-sm leading-relaxed mb-5 line-clamp-2 min-h-[2.5rem] text-muted-foreground">
-               {project.description ||
-                  "A modern, responsive project built with cutting-edge technologies."}
+            <p
+               className={`text-sm leading-relaxed mt-0 mb-5 line-clamp-2 ${
+                  project.description
+                     ? "text-muted-foreground"
+                     : "text-muted-foreground/60 italic"
+               }`}
+            >
+               {project.description || "No description yet. See the code on GitHub."}
             </p>
 
             <div className="flex flex-wrap gap-2 mb-5">
-               {project.language && (
-                  <span className="px-3 py-1.5 rounded-md text-xs font-medium bg-secondary/80 text-secondary-foreground border border-foreground/15">
-                     {project.language}
-                  </span>
-               )}
-               {project.topics?.slice(0, 3).map((topic) => (
+               {tags.map((tag) => (
                   <span
-                     key={topic}
-                     className="px-3 py-1.5 rounded-md text-xs font-medium capitalize bg-secondary/80 text-secondary-foreground border border-foreground/15"
+                     key={tag}
+                     className="px-2.5 py-1 rounded-md text-xs font-medium bg-secondary text-secondary-foreground"
                   >
-                     {topic}
+                     {tag}
                   </span>
                ))}
             </div>

@@ -5,12 +5,18 @@ import pLogoDark from "../assets/p-logo-dark.svg";
 import pLogoLight from "../assets/p-logo-light.svg";
 
 const Navigation = () => {
+   // `sections` lists every section id that should highlight this nav item
+   // (Projects spans the UI/UX, Design and Coding sections).
    const navItems = [
-      { href: "#about", label: "About" },
-      { href: "#services", label: "Services" },
-      { href: "#design-projects", label: "Projects" },
-      { href: "#process", label: "Process" },
-      { href: "#contact", label: "Contact" },
+      { href: "#about", label: "About", sections: ["about"] },
+      { href: "#services", label: "Services", sections: ["services"] },
+      {
+         href: "#uiux-projects",
+         label: "Projects",
+         sections: ["uiux-projects", "design-projects", "projects"],
+      },
+      { href: "#process", label: "Process", sections: ["process"] },
+      { href: "#contact", label: "Contact", sections: ["contact"] },
    ];
 
    const [scrolled, setScrolled] = useState(false);
@@ -34,14 +40,18 @@ const Navigation = () => {
 
    useEffect(() => {
       const sections = navItems
-         .map((item) => document.querySelector(item.href))
-         .filter((el): el is Element => el !== null);
+         .flatMap((item) => item.sections)
+         .map((id) => document.getElementById(id))
+         .filter((el): el is HTMLElement => el !== null);
 
       const observer = new IntersectionObserver(
          (entries) => {
             entries.forEach((entry) => {
                if (entry.isIntersecting) {
-                  setActiveSection(`#${entry.target.id}`);
+                  const owner = navItems.find((item) =>
+                     item.sections.includes(entry.target.id)
+                  );
+                  if (owner) setActiveSection(owner.href);
                }
             });
          },

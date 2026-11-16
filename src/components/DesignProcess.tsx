@@ -5,10 +5,10 @@ import {
    Code2,
    ShieldCheck,
    Send,
-   ChevronRight,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Reveal from "./Reveal";
+import SectionHeader from "./SectionHeader";
 
 interface ProcessStep {
    icon: LucideIcon;
@@ -52,51 +52,35 @@ const steps: ProcessStep[] = [
 const DesignProcess = () => {
    return (
       <section id="process" className="relative py-20 overflow-hidden">
-         <div
-            className="floating-orb w-72 h-72 -top-10 -left-16"
-            style={{
-               background:
-                  "color-mix(in oklch, var(--color-primary), transparent 68%)",
-            }}
-         />
          <div className="container-padding">
-            <Reveal className="text-center mb-16">
-               <span className="section-kicker justify-center">How I Work</span>
-               <h2 className="gradient-text mb-4">Design Process</h2>
-               <p className="text-muted-foreground">
-                  From first idea to a live, working site
-               </p>
-            </Reveal>
+            <SectionHeader number="08" label="Process" title="How I work" subtitle="From first idea to a live, working site" />
 
             <Reveal
                delay={100}
-               className="flex overflow-x-auto md:overflow-visible items-start gap-4 md:gap-2 max-w-6xl mx-auto pb-4 md:pb-0 snap-x"
+               className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-x-6 gap-y-10 max-w-6xl mx-auto text-left"
             >
                {steps.map((step, index) => {
                   const Icon = step.icon;
-                  const isLast = index === steps.length - 1;
                   return (
                      <div
                         key={step.title}
-                        className="flex items-start flex-shrink-0 md:flex-1"
+                        className="group border-t-2 border-border hover:border-primary pt-5 transition-smooth"
                      >
-                        <div className="flex flex-col items-center text-center w-32 md:w-auto snap-start">
-                           <div className="w-14 h-14 rounded-full bg-primary/15 border border-primary/30 flex items-center justify-center mb-4 shrink-0">
-                              <Icon size={22} className="text-primary" />
-                           </div>
-                           <h4 className="font-semibold text-foreground text-sm mb-1">
-                              {step.title}
-                           </h4>
-                           <p className="text-xs text-muted-foreground leading-snug">
-                              {step.description}
-                           </p>
-                        </div>
-                        {!isLast && (
-                           <ChevronRight
+                        <div className="flex items-center justify-between mb-4">
+                           <span className="font-display font-extrabold text-3xl text-primary leading-none">
+                              {String(index + 1).padStart(2, "0")}
+                           </span>
+                           <Icon
                               size={18}
-                              className="hidden md:block text-muted-foreground/40 mt-6 mx-1 shrink-0"
+                              className="text-muted-foreground group-hover:text-primary transition-smooth"
                            />
-                        )}
+                        </div>
+                        <h4 className="font-semibold text-foreground text-base mb-1">
+                           {step.title}
+                        </h4>
+                        <p className="text-sm text-muted-foreground leading-snug m-0">
+                           {step.description}
+                        </p>
                      </div>
                   );
                })}

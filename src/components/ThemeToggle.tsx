@@ -24,6 +24,10 @@ const ThemeToggle = () => {
    return (
       <button
          onClick={toggleTheme}
+         aria-label={
+            theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+         }
+         title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
          className="p-2 rounded-sm btn-toggle transition-smooth"
       >
          {theme === "dark" ? <Sun size={20} /> : <Moon size={20} />}

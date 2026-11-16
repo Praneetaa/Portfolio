@@ -1,20 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-   PenTool,
-   FileText,
-   Layout,
-   BarChart3,
-   CreditCard,
-   Monitor,
-   Share2,
-   Award,
-   Mail,
-   Flag,
-   BadgeCheck,
-   Search,
-   X,
-   type LucideIcon,
-} from "lucide-react";
+import { X } from "lucide-react";
 
 import ceyloraFlyer from "../assets/designs/ceylora-flyer.webp";
 import ceyloraBizCard from "../assets/designs/ceylora-business-card.webp";
@@ -32,18 +17,10 @@ import lcicWebsite from "../assets/designs/lcic-website.webp";
 import nextxusLogo from "../assets/designs/nextxus-logo.webp";
 import photographyClubLogo from "../assets/designs/photography-club-logo.webp";
 import preciseDigitalFlyer from "../assets/designs/precise-digital-flyer.webp";
-import preciseDigitalWebsite from "../assets/designs/precise-digital-webiste.webp";
+import preciseDigitalWebsite from "../assets/designs/precise-digital-website.webp";
 import shopifyWebsite from "../assets/designs/shopify-website.webp";
 import spillTheTeaWebsite from "../assets/designs/spill-the-tea-website.webp";
 import ceyloraLogo from "../assets/designs/ceylora-logo.webp";
-
-interface DesignCategory {
-   icon: LucideIcon;
-   /** Matches `DesignPiece.category` so the filter tabs can select by it. */
-   key: string;
-   title: string;
-   description: string | string[];
-}
 
 interface DesignPiece {
    category: string;
@@ -64,84 +41,6 @@ interface DesignPiece {
    featured?: boolean;
 }
 
-const categories: DesignCategory[] = [
-   {
-      icon: PenTool,
-      key: "Logo",
-      title: "Logo Design",
-      description:
-         "Distinct, memorable marks that capture a brand's identity at a glance.",
-   },
-   {
-      icon: FileText,
-      key: "Brochure",
-      title: "Brochure Design",
-      description:
-         "Multi-panel layouts that tell a brand's story with clarity and flow.",
-   },
-   {
-      icon: Layout,
-      key: "Flyer",
-      title: "Flyer Design",
-      description: "Bold, eye-catching flyers built to grab attention fast.",
-   },
-   {
-      icon: BarChart3,
-      key: "Infographic",
-      title: "Infographics",
-      description:
-         "Turning complex data into visuals that are easy to read and share.",
-   },
-   {
-      icon: CreditCard,
-      key: "Business Card",
-      title: "Business Cards",
-      description:
-         "Compact, polished designs that make a strong first impression.",
-   },
-   {
-      icon: Monitor,
-      key: "Website",
-      title: "Website & UI Mockups",
-      description:
-         "Clean, responsive page designs mocked up across desktop, tablet, and mobile.",
-   },
-   {
-      icon: Share2,
-      key: "Social Media",
-      title: "Social Media Posts",
-      description:
-         "Scroll-stopping graphics sized and styled for social feeds.",
-   },
-   {
-      icon: Award,
-      key: "Certificate",
-      title: "Certificates",
-      description:
-         "Formal certificates of appreciation and completion, ready to print.",
-   },
-   {
-      icon: Mail,
-      key: "Invitation",
-      title: "Invitations",
-      description:
-         "Event invitations and posters that set the tone before people even arrive.",
-   },
-   {
-      icon: Flag,
-      key: "Banner",
-      title: "Banners",
-      description:
-         "Roll-up and display banners built for events and exhibitions.",
-   },
-   {
-      icon: BadgeCheck,
-      key: "Seal",
-      title: "Badges & Seals",
-      description:
-         "Approval seals and badge marks used to signal trust and credibility.",
-   },
-];
 
 /**
  * Real design work. Add new pieces here as more come in —
@@ -236,7 +135,7 @@ const columnB: DesignPiece[] = [
       "Design Approach: Built in WordPress as a real, editable site rather than a static mockup, prioritizing trust signals above the fold.",
    ], tools: ["WordPress"], featured: true },
    { category: "Logo", title: "Nextxus", image: nextxusLogo, description: [
-      "Brand: Nextxus is the identity I created for PRECISE IoT Core, my IoT device monitoring platform.",
+      "Brand: Nextxus is the identity I created for PRECISE IoT Core, the IoT device monitoring platform I designed during my internship.",
       "Purpose: A primary logo mark and wordmark representing the platform's core idea, which is connected devices reporting into one central hub.",
       "Visual Direction: Modern, tech-forward mark built around orbit and connectivity, mirroring how the platform visualizes a device network.",
       "Layout: Four nodes orbiting a central hub, paired with a bold blue wordmark below.",
@@ -285,58 +184,81 @@ const columnB: DesignPiece[] = [
       "Design Approach: Built as an actual Shopify store, using a bright teal header against mostly white space so busy product photography doesn't compete with the UI.",
    ], tools: ["Shopify"] },
    { category: "Website", title: "Spill The Tea", image: spillTheTeaWebsite, description: [
-      "Project: Spill The Tea Café is a group project I built for my Website Design course at Siam University with a five-person team, where I handled the wireframes, the theme and color selection, and the About page.",
+      "Project: Spill The Tea Café is a project for my Website Design course at Siam University. I designed the entire UI/UX in Figma, and a five-person team, including me, built it.",
       "Purpose: A café website focused on menu browsing and table booking, with a working contact form and booking system built on PHP and MySQL.",
       "Visual Direction: I chose a warm, muted brown-and-cream palette to symbolize tea and coffee, paired with the Poppins font for a calm and inviting feel.",
-      "Layout: I created the wireframes for every page, which set the structure the rest of the team built the site from, including the homepage's \"Customer Favorites\" showcase and its \"View Menu\" and \"Book a Table\" calls to action.",
+      "Layout: I created the wireframes and final designs for every page, which set the structure the team built the site from, including the homepage's \"Customer Favorites\" showcase and its \"View Menu\" and \"Book a Table\" calls to action.",
       "Design Approach: I aimed for an inviting, cozy corner spot feeling instead of a generic food-app look, since that warmth is what actually draws café visitors in.",
    ], tools: ["Figma"] },
 ];
 
+// Pinboard look: each piece is a print, tilted a little and taped to the board.
+const TILTS = [-3, 2.5, -1.5, 3, -2.5, 1.5, -2, 2];
+const TAPE_TILTS = [-4, 3, -2, 5, -3, 2];
+const TAPE_COLORS = [
+   "color-mix(in oklch, var(--color-primary), white 35%)",
+   "color-mix(in oklch, var(--color-accent), white 25%)",
+   "oklch(0.9 0.12 95)", // soft yellow
+];
+
 function DesignCard({
    piece,
+   index,
    onSelect,
 }: {
    piece: DesignPiece;
+   index: number;
    onSelect: (piece: DesignPiece) => void;
 }) {
+   const style = {
+      "--tilt": `${TILTS[index % TILTS.length]}deg`,
+      "--tape-tilt": `${TAPE_TILTS[index % TAPE_TILTS.length]}deg`,
+      "--tape-color": TAPE_COLORS[index % TAPE_COLORS.length],
+      animationDelay: `${index * 60}ms`,
+   } as React.CSSProperties;
+
    return (
-      <div
-         className="protect-content glass-card p-0 overflow-hidden hover:-translate-y-1 hover:glow-effect transition-smooth group cursor-pointer"
-         role="button"
-         tabIndex={0}
-         draggable={false}
-         onDragStart={(e) => e.preventDefault()}
-         onContextMenu={(e) => e.preventDefault()}
-         onClick={() => onSelect(piece)}
-         onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-               e.preventDefault();
-               onSelect(piece);
-            }
-         }}
-      >
-         <div className="relative aspect-[4/5] overflow-hidden bg-black/20">
+      <div className="pin-drop mb-12 break-inside-avoid" style={style}>
+         <div
+            className="pin-card protect-content cursor-pointer"
+            role="button"
+            tabIndex={0}
+            aria-label={`${piece.title}, ${piece.category}. Open details`}
+            draggable={false}
+            onDragStart={(e) => e.preventDefault()}
+            onContextMenu={(e) => e.preventDefault()}
+            onClick={() => onSelect(piece)}
+            onKeyDown={(e) => {
+               if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  onSelect(piece);
+               }
+            }}
+         >
+            <span className="pin-tape" aria-hidden="true" />
             {piece.image ? (
                <img
                   src={piece.image}
                   alt={piece.title}
-                  className="protected-img w-full h-full object-contain object-center transition-transform duration-500 ease-out group-hover:scale-110"
+                  className="protected-img w-full h-auto rounded-[2px]"
                   loading="lazy"
                   draggable={false}
                   onDragStart={(e) => e.preventDefault()}
                   onContextMenu={(e) => e.preventDefault()}
                />
             ) : (
-               <div className="w-full h-full bg-secondary" />
+               <div className="aspect-[4/5] bg-neutral-200" />
             )}
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/60 via-black/0 to-black/0 opacity-0 group-hover:opacity-100 transition-smooth" />
-            <span className="absolute bottom-2 left-2 text-white/90 font-semibold text-xs px-3 py-1 rounded-full bg-black/40 backdrop-blur-sm">
-               {piece.category}
-            </span>
+            <p className="pin-label m-0">{piece.title}</p>
          </div>
       </div>
    );
+}
+
+/** "Brand: Ceylora is…" → { label: "Brand", text: "Ceylora is…" } */
+function splitPoint(item: string) {
+   const match = item.match(/^([^:]{2,30}):\s*([\s\S]*)$/);
+   return match ? { label: match[1], text: match[2] } : { label: "", text: item };
 }
 
 function DesignModal({
@@ -359,27 +281,33 @@ function DesignModal({
    }, [onClose]);
 
    const detailSrc = piece.detailImage || piece.image;
+   const points = Array.isArray(piece.description)
+      ? piece.description.map(splitPoint)
+      : null;
 
    return (
       <div
-         className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-black/70 backdrop-blur-sm animate-fade-in"
+         className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-8 bg-black/80 backdrop-blur-sm animate-fade-in"
          onClick={onClose}
       >
          <div
             className="relative w-full max-w-5xl max-h-[90vh] glass-card-feature p-0 overflow-hidden grid md:grid-cols-2"
             onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+            aria-label={piece.title}
          >
             <button
                onClick={onClose}
                aria-label="Close"
-               className="absolute top-4 right-4 z-10 p-2 rounded-full bg-black/50 hover:bg-black/70 transition-smooth"
+               className="absolute top-4 right-4 z-10 p-2 rounded-[var(--radius-btn)] bg-card border border-border text-foreground hover:border-primary hover:text-primary transition-smooth"
             >
-               <X size={20} className="text-white" />
+               <X size={18} />
             </button>
 
             {/* Left — full image */}
             <div
-               className="protect-content relative w-full h-64 md:h-full max-h-[90vh] overflow-hidden bg-black/20 flex items-center justify-center"
+               className="protect-content relative w-full h-64 md:h-full max-h-[90vh] overflow-hidden bg-secondary/50 flex items-center justify-center p-4"
                draggable={false}
                onDragStart={(e) => e.preventDefault()}
                onContextMenu={(e) => e.preventDefault()}
@@ -398,48 +326,57 @@ function DesignModal({
                )}
             </div>
 
-            {/* Right — info */}
+            {/* Right — info, laid out like a spec sheet */}
             <div className="custom-scrollbar p-6 md:p-8 text-left overflow-y-auto max-h-[90vh]">
-               <span className="inline-block px-3 py-1 mb-3 text-xs font-semibold rounded-full bg-accent/20 text-accent border border-accent/30">
+               <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary m-0 mb-2 pr-12">
                   {piece.category}
-               </span>
-               <h3 className="text-2xl font-bold text-foreground mb-3">
+               </p>
+               <h3 className="text-3xl font-extrabold text-foreground mt-0 mb-6 pr-12">
                   {piece.title}
+                  <span className="text-primary">.</span>
                </h3>
-               {Array.isArray(piece.description) ? (
-  <ul className="text-muted-foreground leading-relaxed list-disc pl-5 space-y-2">
-    {piece.description.map((item, index) => (
-      <li key={index}>{item}</li>
-    ))}
-  </ul>
-) : (
-  <p className="text-muted-foreground leading-relaxed">
-    {piece.description}
-  </p>
-)}
+
+               {points ? (
+                  <dl className="m-0 border-t border-border">
+                     {points.map((point, i) => (
+                        <div
+                           key={i}
+                           className="grid sm:grid-cols-[8.5rem_1fr] gap-x-4 gap-y-1 py-3 border-b border-border"
+                        >
+                           <dt className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground pt-0.5">
+                              {point.label}
+                           </dt>
+                           <dd className="m-0 text-sm text-foreground/85 leading-relaxed">
+                              {point.text}
+                           </dd>
+                        </div>
+                     ))}
+                  </dl>
+               ) : (
+                  <p className="text-muted-foreground leading-relaxed">
+                     {piece.description}
+                  </p>
+               )}
 
                {piece.tools && piece.tools.length > 0 && (
-                  <div className="mt-6">
-                     <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">
-                        Tools Used
-                     </p>
-                     <div className="flex flex-wrap gap-2">
-                        {piece.tools.map((tool) => (
-                           <span
-                              key={tool}
-                              className="px-3 py-1.5 rounded-full text-xs font-medium text-foreground"
-                              style={{ backgroundColor: "var(--color-secondary)" }}
-                           >
-                              {tool}
-                           </span>
-                        ))}
-                     </div>
+                  <div className="mt-6 flex flex-wrap items-center gap-2">
+                     <span className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground mr-2">
+                        Made with
+                     </span>
+                     {piece.tools.map((tool) => (
+                        <span
+                           key={tool}
+                           className="px-2.5 py-1 rounded-md text-xs font-medium bg-secondary text-secondary-foreground"
+                        >
+                           {tool}
+                        </span>
+                     ))}
                   </div>
                )}
 
                {piece.variations && piece.variations.length > 0 && (
                   <div className="mt-6">
-                     <p className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-3">
+                     <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground mb-3">
                         Variations
                      </p>
                      <div className="protect-content grid grid-cols-2 gap-3">
@@ -448,7 +385,7 @@ function DesignModal({
                               key={i}
                               src={src}
                               alt={`${piece.title} variation ${i + 1}`}
-                              className="protected-img w-full aspect-[4/5] object-contain rounded-lg border border-foreground/10"
+                              className="protected-img w-full aspect-[4/5] object-contain rounded-lg border border-border bg-secondary/50"
                               draggable={false}
                               onDragStart={(e) => e.preventDefault()}
                               onContextMenu={(e) => e.preventDefault()}
@@ -464,149 +401,81 @@ function DesignModal({
 }
 
 const allPieces: DesignPiece[] = [...columnA, ...columnB];
-const featuredPieces = allPieces.filter((piece) => piece.featured);
+
+/** Four simple groups instead of a long list of categories. */
+const groups: { key: string; label: string; match: (p: DesignPiece) => boolean }[] = [
+   { key: "selected", label: "Selected", match: (p) => !!p.featured },
+   {
+      key: "branding",
+      label: "Branding",
+      match: (p) => ["Logo", "Business Card", "Seal"].includes(p.category),
+   },
+   {
+      key: "print",
+      label: "Print",
+      match: (p) =>
+         ["Flyer", "Brochure", "Banner", "Certificate", "Invitation", "Infographic"].includes(
+            p.category
+         ),
+   },
+   {
+      key: "digital",
+      label: "Digital",
+      match: (p) => ["Website", "Social Media"].includes(p.category),
+   },
+];
 
 export default function DesignProjects() {
-   const loopA = [...columnA, ...columnA];
-   const loopB = [...columnB, ...columnB];
    const [selected, setSelected] = useState<DesignPiece | null>(null);
-   const [activeCategory, setActiveCategory] = useState<string | null>(null);
-   const [categorySearch, setCategorySearch] = useState("");
-   const [isFilterOpen, setIsFilterOpen] = useState(false);
+   const [groupKey, setGroupKey] = useState("selected");
 
-   const filteredPieces = activeCategory
-      ? allPieces.filter((piece) => piece.category === activeCategory)
-      : featuredPieces;
-
-   const activeLabel = activeCategory
-      ? categories.find((c) => c.key === activeCategory)?.title ?? "Featured"
-      : "Featured";
-
-   const showFeaturedOption = "featured".includes(categorySearch.toLowerCase());
-   const visibleCategories = categories.filter((category) =>
-      category.title.toLowerCase().includes(categorySearch.toLowerCase())
-   );
-
-   function selectCategory(key: string | null) {
-      setActiveCategory(key);
-      setCategorySearch("");
-      setIsFilterOpen(false);
-   }
+   const group = groups.find((g) => g.key === groupKey) ?? groups[0];
+   const pieces = allPieces.filter(group.match);
 
    return (
-      <div className="grid md:grid-cols-[1.1fr_1fr] gap-8 md:gap-10 max-w-6xl mx-auto items-start">
-         {/* Left — two columns of designs, scrolling in opposite directions.
-             Hidden entirely on phone (purely decorative, no room to breathe there);
-             the filter/search panel becomes the whole view on mobile. */}
-         <div className="hidden sm:grid sm:grid-cols-2 gap-4 md:gap-6">
-            <div className="marquee-col h-[560px] md:h-[700px]">
-               <div
-                  className="marquee-track dir-up"
-                  style={{ animationDuration: "54s" }}
-               >
-                  {loopA.map((piece, i) => (
-                     <DesignCard
-                        key={`a-${piece.title}-${i}`}
-                        piece={piece}
-                        onSelect={setSelected}
-                     />
-                  ))}
-               </div>
-            </div>
-            <div className="marquee-col h-[560px] md:h-[700px]">
-               <div
-                  className="marquee-track dir-down"
-                  style={{ animationDuration: "54s" }}
-               >
-                  {loopB.map((piece, i) => (
-                     <DesignCard
-                        key={`b-${piece.title}-${i}`}
-                        piece={piece}
-                        onSelect={setSelected}
-                     />
-                  ))}
-               </div>
-            </div>
+      <div className="max-w-6xl mx-auto">
+         {/* Tabs */}
+         <div
+            className="flex flex-wrap items-center gap-x-7 gap-y-2 border-b border-border mb-10"
+            role="tablist"
+            aria-label="Design categories"
+         >
+            {groups.map((g) => {
+               const isActive = g.key === groupKey;
+               const count = allPieces.filter(g.match).length;
+               return (
+                  <button
+                     key={g.key}
+                     type="button"
+                     role="tab"
+                     aria-selected={isActive}
+                     onClick={() => setGroupKey(g.key)}
+                     className={`relative -mb-px pb-3 text-sm font-semibold transition-smooth border-b-2 ${
+                        isActive
+                           ? "text-foreground border-primary"
+                           : "text-muted-foreground border-transparent hover:text-foreground"
+                     }`}
+                  >
+                     {g.label}
+                     <span className="ml-1.5 text-xs font-medium text-muted-foreground">
+                        {count}
+                     </span>
+                  </button>
+               );
+            })}
          </div>
 
-         {/* Right — filterable browser: type to search categories, pick one to see every piece in it */}
-         <div className="glass-card md:sticky md:top-28 self-start p-5 md:p-7">
-            <div className="relative mb-5">
-               <div className="flex items-center gap-2 bg-card/60 border border-foreground/10 rounded-lg px-3 py-2 focus-within:border-primary/50 transition-smooth">
-                  <Search size={16} className="text-muted-foreground shrink-0" />
-                  <input
-                     type="text"
-                     value={isFilterOpen ? categorySearch : activeLabel}
-                     onFocus={() => {
-                        setIsFilterOpen(true);
-                        setCategorySearch("");
-                     }}
-                     onChange={(e) => setCategorySearch(e.target.value)}
-                     onBlur={() =>
-                        window.setTimeout(() => setIsFilterOpen(false), 150)
-                     }
-                     placeholder="Search categories..."
-                     className="w-full bg-transparent text-sm text-foreground placeholder:text-muted-foreground/60 focus:outline-none"
-                  />
-               </div>
-
-               {isFilterOpen && (
-                  <div className="custom-scrollbar absolute z-10 mt-2 w-full max-h-64 overflow-y-auto glass-card p-2 space-y-1">
-                     {showFeaturedOption && (
-                        <button
-                           type="button"
-                           onMouseDown={(e) => e.preventDefault()}
-                           onClick={() => selectCategory(null)}
-                           className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm text-left transition-smooth ${
-                              activeCategory === null
-                                 ? "bg-primary text-primary-foreground"
-                                 : "hover:bg-card/80 text-foreground"
-                           }`}
-                        >
-                           <span>Featured</span>
-                           <span className="text-xs opacity-70">
-                              {featuredPieces.length}
-                           </span>
-                        </button>
-                     )}
-                     {visibleCategories.map((category) => {
-                        const count = allPieces.filter(
-                           (piece) => piece.category === category.key
-                        ).length;
-                        if (count === 0) return null;
-                        const Icon = category.icon;
-                        return (
-                           <button
-                              type="button"
-                              key={category.key}
-                              onMouseDown={(e) => e.preventDefault()}
-                              onClick={() => selectCategory(category.key)}
-                              className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-left transition-smooth ${
-                                 activeCategory === category.key
-                                    ? "bg-primary text-primary-foreground"
-                                    : "hover:bg-card/80 text-foreground"
-                              }`}
-                           >
-                              <Icon size={14} className="shrink-0" />
-                              <span className="flex-1">{category.title}</span>
-                              <span className="text-xs opacity-70">{count}</span>
-                           </button>
-                        );
-                     })}
-                     {!showFeaturedOption && visibleCategories.length === 0 && (
-                        <p className="px-3 py-2 text-sm text-muted-foreground">
-                           No categories match "{categorySearch}"
-                        </p>
-                     )}
-                  </div>
-               )}
-            </div>
-
-            <div className="custom-scrollbar grid grid-cols-1 sm:grid-cols-2 gap-5 max-h-[560px] md:max-h-[660px] overflow-y-auto pr-1">
-               {filteredPieces.map((piece, i) => (
+         {/* Gallery: each piece keeps its natural shape */}
+         <div className="pin-board">
+            <div
+               key={groupKey}
+               className="columns-1 sm:columns-2 lg:columns-3 gap-8 lg:gap-10"
+            >
+               {pieces.map((piece, i) => (
                   <DesignCard
-                     key={`filter-${piece.title}-${i}`}
+                     key={piece.title}
                      piece={piece}
+                     index={i}
                      onSelect={setSelected}
                   />
                ))}

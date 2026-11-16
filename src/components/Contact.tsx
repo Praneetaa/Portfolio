@@ -3,6 +3,7 @@ import { MessageSquare } from "lucide-react";
 import emailjs from "@emailjs/browser";
 import { socialLinks, contactEmail } from "../data/socialLinks";
 import Reveal from "./Reveal";
+import SectionHeader from "./SectionHeader";
 
 const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID as string;
 const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string;
@@ -53,22 +54,8 @@ const Contact = () => {
 
    return (
       <section id="contact" className="relative py-20 overflow-hidden">
-         <div
-            className="floating-orb w-80 h-80 bottom-0 -left-20"
-            style={{
-               background:
-                  "color-mix(in oklch, var(--color-primary), transparent 65%)",
-            }}
-         />
          <div className="container-padding w-full">
-            <Reveal className="text-center mb-12">
-               <span className="section-kicker justify-center">Get In Touch</span>
-               <h2 className="gradient-text mb-4">Let's Connect</h2>
-               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                  I'm excited to connect with fellow developers and collaborate
-                  on projects.
-               </p>
-            </Reveal>
+            <SectionHeader number="09" label="Contact" title="Let's work together" subtitle="Have a project in mind, a role to fill, or just want to say hello? I'd love to hear from you." note="say hi!" />
 
             <Reveal
                as="div"
@@ -77,15 +64,10 @@ const Contact = () => {
             >
                {/* Contact Info */}
                <div className="space-y-6">
-                  <div className="glass-card">
-                     <h3 className="text-2xl font-semibold mb-4 text-primary">
-                        Get in Touch
+                  <div className="glass-card text-left">
+                     <h3 className="text-2xl font-semibold mt-0 mb-5 text-foreground">
+                        Find me online
                      </h3>
-                     <p className="text-muted-foreground mb-6 leading-relaxed">
-                        Whether you have a project idea, want to discuss
-                        technology, or just want to say hello, I'd love to hear
-                        from you!
-                     </p>
 
                      <div className="space-y-4 text-left">
                         {socialLinks.map((link, index) => (

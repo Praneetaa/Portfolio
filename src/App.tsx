@@ -6,7 +6,6 @@ import DesignProcess from "./components/DesignProcess";
 import Projects from "./components/Projects";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
-import CursorGlow from "./components/CursorGlow";
 import ScrollToTop from "./components/ScrollToTop";
 import Preloader from "./components/Preloader";
 
@@ -16,7 +15,6 @@ function App() {
          <Analytics />
          <Preloader />
          <Navigation />
-         <CursorGlow />
          <main>
             <Hero />
             <Services />

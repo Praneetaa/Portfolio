@@ -1,11 +1,12 @@
 import Reveal from "./Reveal";
+import SectionHeader from "./SectionHeader";
 
 interface TimelineEvent {
    year: string;
    title: string;
 }
 
-// Recent Events Timeline (see Hero's Download Resume button).
+// Recent Events Timeline (see Hero's View Resume button).
 const events: TimelineEvent[] = [
    {
       year: "2023",
@@ -17,7 +18,7 @@ const events: TimelineEvent[] = [
    },
    {
       year: "2026",
-      title: "UI/UX Design Intern, Precise System & Project Co.",
+      title: "UI/UX Design Intern, Precise Digital Economy Co., Ltd.",
    },
    {
       year: "2026",
@@ -30,15 +31,9 @@ const Timeline = () => {
    return (
       <section className="relative pt-10 pb-4 overflow-hidden">
          <div className="container-padding">
-            <Reveal className="text-center mb-8">
-               <span className="section-kicker justify-center">Timeline</span>
-               <h2 className="gradient-text mb-4">My Journey</h2>
-               <p className="text-muted-foreground">
-                  A quick look at where I've been and what's next
-               </p>
-            </Reveal>
+            <SectionHeader number="02" label="Journey" title="My journey so far" subtitle="A quick look at where I've been and what's next" />
 
-            <Reveal delay={100} className="relative max-w-5xl mx-auto">
+            <Reveal delay={100} className="relative max-w-6xl mx-auto">
                {/* Connecting line */}
                <div className="hidden md:block absolute left-0 right-0 top-[7px] h-px bg-primary opacity-40" />
 

@@ -39,6 +39,7 @@ import type { LucideIcon } from "lucide-react";
 import profilePic from "../assets/profilePicture.webp";
 import { socialLinks, contactEmail } from "../data/socialLinks.ts";
 import Reveal from "./Reveal";
+import SectionHeader from "./SectionHeader";
 import Timeline from "./Timeline";
 
 type TabType = "Frontend" | "Design";
@@ -141,23 +142,6 @@ const Hero = () => {
    return (
       <>
       <section id="about" className="relative overflow-hidden">
-         {/* Ambient floating orbs for extra depth */}
-         <div
-            className="floating-orb w-72 h-72 -top-10 -left-10"
-            style={{
-               background:
-                  "color-mix(in oklch, var(--color-primary), transparent 60%)",
-            }}
-         />
-         <div
-            className="floating-orb w-80 h-80 bottom-0 right-0"
-            style={{
-               background:
-                  "color-mix(in oklch, var(--color-accent), transparent 65%)",
-               animationDelay: "2s",
-            }}
-         />
-
          <div className="container-padding relative min-h-screen flex items-center pt-16 pb-8">
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center w-full">
                {/* Left — ID card, drops in and swings on load, flips to socials on hover */}
@@ -255,11 +239,15 @@ const Hero = () => {
                </div>
 
                {/* Right — About Me */}
-               <Reveal delay={150} className="text-center lg:text-left">
-                  <span className="section-kicker justify-center lg:justify-start">
-                     Get To Know Me
-                  </span>
-                  <h2 className="gradient-text mb-6">About Me</h2>
+               <Reveal delay={150} className="text-left">
+                  <SectionHeader
+                     number="01"
+                     label="About"
+                     title="About me"
+                     note="hi, I'm Praneeta!"
+                     className="mb-6"
+                     reveal={false}
+                  />
                   <p className="text-lg leading-relaxed text-muted-foreground mb-4">
                      I'm an Information Technology graduate specializing in
                      web development, web design, and graphic design. I enjoy
@@ -271,8 +259,8 @@ const Hero = () => {
                   <p className="text-lg leading-relaxed text-muted-foreground mb-6">
                      I'm always looking for opportunities to learn, grow, and
                      create meaningful work. I enjoy solving problems,
-                     bringing ideas to life, and helping businesses build a
-                     strong digital presence.
+                     turning rough ideas into real products, and helping
+                     businesses build a strong digital presence.
                   </p>
 
                   <a
@@ -297,7 +285,7 @@ const Hero = () => {
                         View Resume <FileText size={20} />
                      </a>
                      <a
-                        href="#projects"
+                        href="#uiux-projects"
                         className="btn btn-outline inline-flex items-center justify-center gap-2"
                      >
                         View Projects
@@ -314,21 +302,13 @@ const Hero = () => {
       <section className="relative pt-4 pb-16 md:pt-6 md:pb-20 overflow-hidden">
          <div className="container-padding relative">
             {/* Technical Skills */}
-            <Reveal className="text-center mb-16">
-               <span className="section-kicker justify-center">
-                  What I Know
-               </span>
-               <h2 className="gradient-text mb-4">Technical Skills</h2>
-               <p className="text-muted-foreground">
-                  Tools and technologies I use to bring ideas to life
-               </p>
-            </Reveal>
+            <SectionHeader number="03" label="Skills" title="Tools I work with" subtitle="The languages, frameworks and design tools I use day to day." />
 
             <Reveal
                delay={100}
-               className="max-w-5xl mx-auto text-center"
+               className="max-w-6xl mx-auto text-left"
             >
-               <div className="inline-flex gap-2 p-1.5 rounded-full bg-secondary/60 mb-8">
+               <div className="inline-flex gap-2 p-1.5 rounded-[14px] bg-secondary/60 mb-8">
                   {(Object.keys(technicalSkills) as TabType[]).map((tab) => {
                      const SectionIcon = sectionIcons[tab];
                      const isActive = tab === activeTab;
@@ -337,7 +317,7 @@ const Hero = () => {
                            key={tab}
                            type="button"
                            onClick={() => setActiveTab(tab)}
-                           className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-smooth ${
+                           className={`flex items-center gap-2 px-5 py-2.5 rounded-[var(--radius-btn)] text-sm font-semibold transition-smooth ${
                               isActive
                                  ? "text-primary-foreground shadow-lg"
                                  : "text-muted-foreground hover:text-foreground"
