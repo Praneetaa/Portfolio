@@ -18,6 +18,21 @@ interface GitHubRepo {
 }
 const GITHUB_USERNAME = "Praneetaa";
 
+/**
+ * Extra details for repos, keyed by repo name. Used when the repo on GitHub
+ * has no website link or description set; GitHub's own values win if present.
+ */
+const REPO_OVERRIDES: Record<
+   string,
+   { homepage?: string; description?: string }
+> = {
+   "Internship-Portal": {
+      homepage: "https://beaconn-virid.vercel.app",
+      description:
+         "Beaconn: a career platform where students find internships and events, and organisations post and manage them. MERN stack.",
+   },
+};
+
 function getSlidesToShow() {
    if (window.innerWidth < 640) return 1;
    if (window.innerWidth < 1024) return 2;
@@ -61,7 +76,18 @@ export default function CodingProjects() {
             throw new Error("Failed to fetch repositories");
          }
 
-         const data: GitHubRepo[] = await response.json();
+         const data: GitHubRepo[] = (
+            (await response.json()) as GitHubRepo[]
+         ).map((repo) => {
+            const extra = REPO_OVERRIDES[repo.name];
+            return extra
+               ? {
+                    ...repo,
+                    homepage: repo.homepage || extra.homepage || null,
+                    description: repo.description || extra.description || null,
+                 }
+               : repo;
+         });
 
          // Sort by stars (most popular first)
          const sorted = data.sort(
