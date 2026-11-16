@@ -22,12 +22,12 @@ import preciseWidgetStates from "../assets/uiux/precise-widget-states.webp";
 import preciseWidgetConfig from "../assets/uiux/precise-widget-config.webp";
 import precisePrototype from "../assets/uiux/precise-prototype.webp";
 import beaconnLanding from "../assets/uiux/beaconn-landing.webp";
-import beaconnSignup from "../assets/uiux/beaconn-signup.webp";
 import beaconnFind from "../assets/uiux/beaconn-find-internships.webp";
-import beaconnJob from "../assets/uiux/beaconn-job-details.webp";
+import beaconnEvents from "../assets/uiux/beaconn-events.webp";
+import beaconnSaved from "../assets/uiux/beaconn-saved.webp";
 import beaconnApplications from "../assets/uiux/beaconn-applications.webp";
 import beaconnEmployer from "../assets/uiux/beaconn-employer-dashboard.webp";
-import beaconnManageJobs from "../assets/uiux/beaconn-manage-jobs.webp";
+import beaconnManageEvents from "../assets/uiux/beaconn-manage-events.webp";
 
 type ViewMode = "desktop" | "mobile";
 
@@ -179,43 +179,43 @@ const projects: UIUXProject[] = [
             name: "Landing",
             desktop: beaconnLanding,
             caption:
-               "Says what Beaconn is in one line, with a live internship spotlight to show the product straight away.",
+               "Says what Beaconn does in one line, with live counts and a preview built from real listings.",
          },
          {
-            name: "Sign up",
-            desktop: beaconnSignup,
-            caption:
-               "One sign-up form for both roles: choose Candidate or Organization first, and the platform adapts from there.",
-         },
-         {
-            name: "Find internships",
+            name: "Internships",
             desktop: beaconnFind,
             caption:
-               "Student view. Search and filters by work mode and category sit at the top, with internships and events one tab apart.",
+               "Student view. A Coming up strip for the next event and deadline, then internships with stipend, mode and deadline at a glance.",
          },
          {
-            name: "Job details",
-            desktop: beaconnJob,
+            name: "Events",
+            desktop: beaconnEvents,
             caption:
-               "Student view. Role details on the left, and applying, resume upload and saving for later on the right.",
+               "Student view. Calendar date stubs and a seats-left bar, so it is clear when an event is and whether there is still room.",
+         },
+         {
+            name: "Saved",
+            desktop: beaconnSaved,
+            caption:
+               "Student view. Saved internships and events in one place, ready to apply or register later.",
          },
          {
             name: "My applications",
             desktop: beaconnApplications,
             caption:
-               "Student view. Every application and its status in one tracker, so students don't need follow-up emails.",
+               "Student view. Every application and its status in one tracker, so students do not need follow-up emails.",
          },
          {
             name: "Employer dashboard",
             desktop: beaconnEmployer,
             caption:
-               "Organisation view. Key numbers with weekly change, plus the latest applicants and active roles.",
+               "Organisation view. Real numbers with weekly change, the latest applicants and each role's deadline and applicant count.",
          },
          {
-            name: "Manage jobs",
-            desktop: beaconnManageJobs,
+            name: "Manage events",
+            desktop: beaconnManageEvents,
             caption:
-               "Organisation view. Every listing with its status and applicant count, and quick edit, review and delete actions.",
+               "Organisation view. Every posted event with its registrations, and quick edit, close and delete actions.",
          },
       ],
       notes: [
@@ -229,11 +229,11 @@ const projects: UIUXProject[] = [
          },
          {
             title: "Everything tracked in one place",
-            text: "Applications, saved jobs and event registrations each have their own page, with clear statuses instead of guesswork.",
+            text: "Saved internships and events, applications and event registrations each have a page, with clear statuses instead of guesswork.",
          },
          {
             title: "Built to be clear, not busy",
-            text: "A calm blue palette, lots of white space and consistent cards keep a data-heavy platform easy to scan.",
+            text: "One navy for actions, neutral greys for everything else and colour only for status and deadlines keep a data-heavy platform easy to scan.",
          },
          {
             title: "Designed and built end to end",
