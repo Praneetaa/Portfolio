@@ -37,9 +37,14 @@ const Contact = () => {
             TEMPLATE_ID,
             {
                from_name: formData.name,
+               name: formData.name,
                from_email: formData.email,
+               email: formData.email,
+               user_email: formData.email,
+               reply_to: formData.email,
                subject: formData.subject,
-               message: formData.message,
+               title: formData.subject,
+               message: `${formData.message}\n\n---\nFrom: ${formData.name} <${formData.email}>`,
                to_email: contactEmail,
             },
             PUBLIC_KEY
