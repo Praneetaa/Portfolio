@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Menu, X } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
 import pLogoDark from "../assets/p-logo-dark.svg";
@@ -38,6 +38,36 @@ const Navigation = () => {
       return () => window.removeEventListener("scroll", handleScroll);
    }, []);
 
+   // Keep the address bar in sync with the section on screen, but only after
+   // the visitor starts scrolling, so a shared link like /#contact isn't
+   // overwritten before the page has jumped to it.
+   const syncUrl = useRef(false);
+
+   useEffect(() => {
+      // Opening a shared link: make sure we land on that section once the
+      // page (and preloader) has rendered.
+      const hash = window.location.hash;
+      const jump = hash
+         ? window.setTimeout(() => {
+              document.querySelector(hash)?.scrollIntoView({ block: "start" });
+           }, 600)
+         : undefined;
+
+      const enableSync = window.setTimeout(() => {
+         const onUserScroll = () => {
+            syncUrl.current = true;
+         };
+         window.addEventListener("wheel", onUserScroll, { once: true, passive: true });
+         window.addEventListener("touchmove", onUserScroll, { once: true, passive: true });
+         window.addEventListener("keydown", onUserScroll, { once: true });
+      }, 1200);
+
+      return () => {
+         window.clearTimeout(jump);
+         window.clearTimeout(enableSync);
+      };
+   }, []);
+
    useEffect(() => {
       const sections = navItems
          .flatMap((item) => item.sections)
@@ -52,6 +82,14 @@ const Navigation = () => {
                      item.sections.includes(entry.target.id)
                   );
                   if (owner) setActiveSection(owner.href);
+                  if (syncUrl.current) {
+                     const target =
+                        window.scrollY < 100
+                           ? window.location.pathname
+                           : `#${entry.target.id}`;
+                     if (window.location.hash !== target)
+                        history.replaceState(null, "", target);
+                  }
                }
             });
          },
@@ -65,6 +103,8 @@ const Navigation = () => {
 
    const scrollToTop = () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
+      // Back to the plain address (no #section)
+      history.pushState(null, "", window.location.pathname);
       setIsMenuOpen(false);
    };
    const scrollToSection = (href: string) => {
@@ -74,6 +114,8 @@ const Navigation = () => {
             behavior: "smooth",
             block: "start",
          });
+         // Update the address bar so the link can be copied and shared
+         if (window.location.hash !== href) history.pushState(null, "", href);
       }
       setIsMenuOpen(false);
    };
