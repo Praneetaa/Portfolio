@@ -19,6 +19,10 @@ const Contact = () => {
       message: "",
    });
    const [status, setStatus] = useState<FormStatus>("idle");
+   // Spam protection: bots fill in every field (including the hidden one)
+   // and submit instantly; real visitors do neither.
+   const [honeypot, setHoneypot] = useState("");
+   const [loadedAt] = useState(() => Date.now());
 
    const handleChange = (
       e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -29,6 +33,14 @@ const Contact = () => {
 
    const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
+
+      // Looks like a bot: pretend it worked, but don't send anything.
+      if (honeypot || Date.now() - loadedAt < 3000) {
+         setStatus("success");
+         setFormData({ name: "", email: "", subject: "", message: "" });
+         return;
+      }
+
       setStatus("sending");
 
       try {
@@ -153,6 +165,22 @@ const Contact = () => {
                   </div>
 
                   <form className="space-y-6" onSubmit={handleSubmit}>
+                     {/* Hidden trap field for bots; real visitors never see it */}
+                     <div
+                        aria-hidden="true"
+                        style={{ position: "absolute", left: "-10000px", width: 1, height: 1, overflow: "hidden" }}
+                     >
+                        <label htmlFor="website">Website</label>
+                        <input
+                           id="website"
+                           name="website"
+                           type="text"
+                           tabIndex={-1}
+                           autoComplete="off"
+                           value={honeypot}
+                           onChange={(e) => setHoneypot(e.target.value)}
+                        />
+                     </div>
                      <div className="space-y-4 text-left justify-start">
                         <div>
                            <label
