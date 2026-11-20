@@ -9,6 +9,7 @@ import {
    ArrowUpRight,
 } from "lucide-react";
 import Reveal from "./Reveal";
+import LazyImage from "./LazyImage";
 import spillHomeDesktop from "../assets/uiux/spill-the-tea-home-desktop.webp";
 import spillHomeMobile from "../assets/uiux/spill-the-tea-home-mobile.webp";
 import spillAboutDesktop from "../assets/uiux/spill-the-tea-about-desktop.webp";
@@ -384,10 +385,11 @@ function ScreenViewer({ project }: { project: UIUXProject }) {
                onContextMenu={(e) => e.preventDefault()}
                aria-label={`Enlarge ${page.name}`}
             >
-               <img
+               <LazyImage
                   src={page.image}
                   alt={`${project.title} ${page.name}`}
                   className="protected-img w-full max-h-[520px] object-contain"
+                  placeholderClassName="aspect-[16/10]"
                   draggable={false}
                />
                <span className="absolute bottom-3 right-3 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/60 text-white text-xs font-medium opacity-80 group-hover:opacity-100 transition-smooth">
@@ -413,10 +415,11 @@ function ScreenViewer({ project }: { project: UIUXProject }) {
                      onContextMenu={(e) => e.preventDefault()}
                      aria-label={`Enlarge ${page.name}`}
                   >
-                     <img
+                     <LazyImage
                         src={src}
                         alt={`${project.title} ${page.name} screen`}
                         className="protected-img w-full"
+                        placeholderClassName="aspect-[16/10]"
                         draggable={false}
                      />
                      <span className="absolute bottom-3 right-3 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black/60 text-white text-xs font-medium opacity-0 group-hover:opacity-100 transition-smooth">
@@ -430,10 +433,11 @@ function ScreenViewer({ project }: { project: UIUXProject }) {
                      className="protect-content custom-scrollbar h-[360px] sm:h-[460px] md:h-[520px] overflow-y-auto animate-fade-in"
                      onContextMenu={(e) => e.preventDefault()}
                   >
-                     <img
+                     <LazyImage
                         src={src}
                         alt={`${project.title} ${page.name} page, desktop design`}
                         className="protected-img w-full"
+                        placeholderClassName="h-full"
                         draggable={false}
                      />
                   </div>
@@ -450,10 +454,11 @@ function ScreenViewer({ project }: { project: UIUXProject }) {
                   }`}
                   onContextMenu={(e) => e.preventDefault()}
                >
-                  <img
+                  <LazyImage
                      src={src}
                      alt={`${project.title} ${page.name} page, mobile design`}
                      className="protected-img w-full"
+                     placeholderClassName={isApp ? "aspect-[9/19]" : "h-full"}
                      draggable={false}
                   />
                </div>
@@ -530,13 +535,15 @@ function ImageLightbox({
             </button>
          </div>
          <div className="custom-scrollbar flex-1 overflow-auto px-4 pb-6">
-            <img
+            <LazyImage
                src={src}
                alt={alt}
+               loading="eager"
                onClick={(e) => e.stopPropagation()}
                onContextMenu={(e) => e.preventDefault()}
                draggable={false}
                className="protected-img mx-auto w-auto max-w-[1400px] sm:max-w-[min(1800px,95vw)] rounded-lg bg-white"
+               placeholderClassName="mx-auto w-full max-w-[1400px] aspect-[16/10] rounded-lg overflow-hidden"
             />
          </div>
       </div>

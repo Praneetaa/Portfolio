@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { X } from "lucide-react";
+import LazyImage from "./LazyImage";
 
 import ceyloraFlyer from "../assets/designs/ceylora-flyer.webp";
 import ceyloraBizCard from "../assets/designs/ceylora-business-card.webp";
@@ -237,11 +238,12 @@ function DesignCard({
          >
             <span className="pin-tape" aria-hidden="true" />
             {piece.image ? (
-               <img
+               <LazyImage
                   src={piece.image}
                   alt={piece.title}
                   className="protected-img w-full h-auto rounded-[2px]"
-                  loading="lazy"
+                  wrapperClassName="rounded-[2px] overflow-hidden"
+                  placeholderClassName="aspect-[4/5]"
                   draggable={false}
                   onDragStart={(e) => e.preventDefault()}
                   onContextMenu={(e) => e.preventDefault()}
@@ -313,9 +315,11 @@ function DesignModal({
                onContextMenu={(e) => e.preventDefault()}
             >
                {detailSrc ? (
-                  <img
+                  <LazyImage
                      src={detailSrc}
                      alt={piece.title}
+                     loading="eager"
+                     wrapperClassName="w-full h-full"
                      className="protected-img w-full h-full object-contain"
                      draggable={false}
                      onDragStart={(e) => e.preventDefault()}
@@ -381,10 +385,11 @@ function DesignModal({
                      </p>
                      <div className="protect-content grid grid-cols-2 gap-3">
                         {piece.variations.map((src, i) => (
-                           <img
+                           <LazyImage
                               key={i}
                               src={src}
                               alt={`${piece.title} variation ${i + 1}`}
+                              wrapperClassName="rounded-lg overflow-hidden"
                               className="protected-img w-full aspect-[4/5] object-contain rounded-lg border border-border bg-secondary/50"
                               draggable={false}
                               onDragStart={(e) => e.preventDefault()}

@@ -1,5 +1,6 @@
 import { ArrowUpRight } from "lucide-react";
 import Reveal from "./Reveal";
+import LazyImage from "./LazyImage";
 import kayoDev from "../assets/sites/kayodev.webp";
 import lcicWebsite from "../assets/designs/lcic-website.webp";
 
@@ -63,10 +64,10 @@ export default function LiveSites() {
                            </span>
                         </div>
                         <div className="aspect-[16/10] overflow-hidden bg-white">
-                           <img
+                           <LazyImage
                               src={site.image}
                               alt={`${site.title} website`}
-                              loading="lazy"
+                              wrapperClassName="w-full h-full"
                               className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-[1.03]"
                            />
                         </div>

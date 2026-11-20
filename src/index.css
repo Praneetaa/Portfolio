@@ -353,6 +353,34 @@
    pointer-events: auto;
 }
 
+/* Loading placeholder for LazyImage: a soft shimmer in the theme's colours. */
+.img-skeleton {
+   background: linear-gradient(
+      100deg,
+      var(--color-secondary) 30%,
+      color-mix(in oklch, var(--color-secondary), var(--color-foreground) 9%)
+         50%,
+      var(--color-secondary) 70%
+   );
+   background-size: 200% 100%;
+   animation: img-shimmer 1.4s ease-in-out infinite;
+}
+
+@keyframes img-shimmer {
+   from {
+      background-position: 100% 0;
+   }
+   to {
+      background-position: -100% 0;
+   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+   .img-skeleton {
+      animation: none;
+   }
+}
+
 @keyframes fade-in {
    from {
       opacity: 0;
