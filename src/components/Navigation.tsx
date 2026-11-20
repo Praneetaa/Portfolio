@@ -8,14 +8,13 @@ const Navigation = () => {
    // `sections` lists every section id that should highlight this nav item
    // (Projects spans the UI/UX, Design and Coding sections).
    const navItems = [
-      { href: "#about", label: "About", sections: ["about"] },
-      { href: "#services", label: "Services", sections: ["services"] },
+      { href: "#about", label: "About", sections: ["about", "background"] },
       {
          href: "#uiux-projects",
          label: "Projects",
          sections: ["uiux-projects", "design-projects", "projects"],
       },
-      { href: "#process", label: "Process", sections: ["process"] },
+      { href: "#services", label: "Services", sections: ["services"] },
       { href: "#contact", label: "Contact", sections: ["contact"] },
    ];
 

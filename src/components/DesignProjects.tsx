@@ -219,7 +219,9 @@ function DesignCard({
    } as React.CSSProperties;
 
    return (
-      <div className="pin-drop mb-12 break-inside-avoid" style={style}>
+      // pt-4 keeps the tape (which pokes 13px above the card) inside this
+      // box; otherwise CSS columns paint it at the bottom of the previous column.
+      <div className="pin-drop pt-4 mb-8 break-inside-avoid" style={style}>
          <div
             className="pin-card protect-content cursor-pointer"
             role="button"

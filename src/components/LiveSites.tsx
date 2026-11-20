@@ -2,6 +2,7 @@ import { ArrowUpRight } from "lucide-react";
 import Reveal from "./Reveal";
 import LazyImage from "./LazyImage";
 import kayoDev from "../assets/sites/kayodev.webp";
+import lankaNBeyond from "../assets/sites/lankanbeyond.webp";
 import lcicWebsite from "../assets/designs/lcic-website.webp";
 
 interface LiveSite {
@@ -23,8 +24,17 @@ const sites: LiveSite[] = [
       image: kayoDev,
       description:
          "The studio I co-founded to design and build for freelance clients. I designed the website, including a project-finder that helps businesses say what they need in one click.",
-      credits: ["Co-founder", "Design: me", "Development: a teammate"],
+      credits: ["Co-founder"],
       tags: ["Figma Make", "Next.js"],
+   },
+   {
+      title: "Lanka N Beyond",
+      url: "https://lankanbeyond.com/",
+      image: lankaNBeyond,
+      description:
+         "Tours and travel website for a Sri Lankan client, built to show off the island and its tour packages. I designed every page; another developer built it.",
+      credits: ["Client project"],
+      tags: ["Figma", "Next.js"],
    },
    {
       title: "LCIC Website",
@@ -44,7 +54,7 @@ export default function LiveSites() {
          <p className="text-xs font-semibold uppercase tracking-wider text-accent mb-5 text-left">
             Live websites
          </p>
-         <div className="grid md:grid-cols-2 gap-6">
+         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {sites.map((site, i) => (
                <Reveal key={site.title} delay={i * 100}>
                   <a
@@ -63,7 +73,7 @@ export default function LiveSites() {
                               {site.url.replace(/^https?:\/\//, "").replace(/\/$/, "")}
                            </span>
                         </div>
-                        <div className="aspect-[16/10] overflow-hidden bg-white">
+                        <div className="aspect-[16/9] overflow-hidden bg-white">
                            <LazyImage
                               src={site.image}
                               alt={`${site.title} website`}
@@ -73,34 +83,34 @@ export default function LiveSites() {
                         </div>
                      </div>
 
-                     <div className="p-6 flex flex-col flex-1">
+                     <div className="p-4 flex flex-col flex-1">
                         <div className="flex items-start justify-between gap-3 mb-2">
-                           <h3 className="text-xl font-bold text-foreground m-0">
+                           <h3 className="text-base font-bold text-foreground m-0">
                               {site.title}
                            </h3>
-                           <span className="shrink-0 flex items-center gap-1 text-sm font-semibold text-primary">
+                           <span className="shrink-0 flex items-center gap-1 text-xs font-semibold text-primary">
                               Visit site
                               <ArrowUpRight
-                                 size={16}
+                                 size={14}
                                  className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
                               />
                            </span>
                         </div>
-                        <p className="text-sm text-muted-foreground leading-relaxed mt-0 mb-4">
+                        <p className="text-[13px] text-muted-foreground leading-snug mt-0 mb-3">
                            {site.description}
                         </p>
-                        <div className="flex flex-wrap gap-2 mt-auto">
+                        <div className="flex flex-wrap gap-1.5 mt-auto">
                            {[...site.credits, ...site.tags].map((tag) => (
                               <span
                                  key={tag}
-                                 className="px-2.5 py-1 rounded-md text-xs font-medium bg-secondary text-secondary-foreground"
+                                 className="px-2 py-0.5 rounded-md text-[11px] font-medium bg-secondary text-secondary-foreground"
                               >
                                  {tag}
                               </span>
                            ))}
                         </div>
                         {site.note && (
-                           <p className="text-xs italic text-muted-foreground/70 mt-3 mb-0">
+                           <p className="text-[11px] italic text-muted-foreground/70 mt-2 mb-0">
                               {site.note}
                            </p>
                         )}

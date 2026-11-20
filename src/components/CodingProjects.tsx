@@ -31,6 +31,22 @@ const REPO_OVERRIDES: Record<
       description:
          "Beaconn: a career platform where students find internships and events, and organisations post and manage them. MERN stack.",
    },
+   Portfolio: {
+      description:
+         "This portfolio. Designed in Figma and built with React, TypeScript and Tailwind CSS.",
+   },
+   falling_pots_game: {
+      description:
+         "Java desktop game where you dodge falling pots, with player login, registration and saved scores.",
+   },
+   spill_the_tea_cafe: {
+      description:
+         "PHP website for a café, with menu, table booking, user login and an admin panel.",
+   },
+   "Slot-machine": {
+      description:
+         "Console slot machine in JavaScript: deposit, bet on lines, spin and collect winnings.",
+   },
 };
 
 function getSlidesToShow() {

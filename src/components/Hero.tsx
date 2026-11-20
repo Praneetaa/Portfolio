@@ -4,7 +4,6 @@ import profilePic from "../assets/profilePicture.webp";
 import { socialLinks, contactEmail } from "../data/socialLinks.ts";
 import Reveal from "./Reveal";
 import SectionHeader from "./SectionHeader";
-import Timeline from "./Timeline";
 
 const Hero = () => {
    const [isCardFlipped, setIsCardFlipped] = useState(false);
@@ -120,24 +119,23 @@ const Hero = () => {
                   <SectionHeader
                      number="01"
                      label="About"
-                     title="About me"
+                     title="UI/UX designer who builds what she designs"
                      note="hi, I'm Praneeta!"
                      className="mb-6"
                      reveal={false}
                   />
                   <p className="text-lg leading-relaxed text-muted-foreground mb-4">
-                     I'm an Information Technology graduate specializing in
-                     web development, web design, and graphic design. I enjoy
-                     creating modern, user-friendly websites and visual
-                     designs that combine creativity with functionality. I
-                     focus on building clean, effective digital solutions
-                     that deliver a great user experience.
+                     I'm a BSc Information Technology graduate who designs
+                     interfaces in Figma and builds them in React. Most
+                     recently I was a UI/UX Design Intern at Precise Digital
+                     Economy, designing an IoT dashboard platform from
+                     sitemap to developer handoff.
                   </p>
                   <p className="text-lg leading-relaxed text-muted-foreground mb-6">
-                     I'm always looking for opportunities to learn, grow, and
-                     create meaningful work. I enjoy solving problems,
-                     turning rough ideas into real products, and helping
-                     businesses build a strong digital presence.
+                     I like turning messy problems into clear, simple
+                     screens, then seeing them through to a working product.
+                     A background in graphic design means I care about the
+                     details too.
                   </p>
 
                   <a
@@ -174,7 +172,6 @@ const Hero = () => {
          </div>
       </section>
 
-      <Timeline />
 
       </>
    );

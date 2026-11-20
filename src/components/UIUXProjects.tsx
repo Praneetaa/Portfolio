@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import {
    Monitor,
    Smartphone,
@@ -7,7 +7,10 @@ import {
    X,
    Check,
    ArrowUpRight,
+   ChevronLeft,
+   ChevronRight,
 } from "lucide-react";
+import { SiGithub } from "react-icons/si";
 import Reveal from "./Reveal";
 import LazyImage from "./LazyImage";
 import spillHomeDesktop from "../assets/uiux/spill-the-tea-home-desktop.webp";
@@ -29,6 +32,17 @@ import beaconnSaved from "../assets/uiux/beaconn-saved.webp";
 import beaconnApplications from "../assets/uiux/beaconn-applications.webp";
 import beaconnEmployer from "../assets/uiux/beaconn-employer-dashboard.webp";
 import beaconnManageEvents from "../assets/uiux/beaconn-manage-events.webp";
+import lankaFigma from "../assets/uiux/lankanbeyond-figma.webp";
+import lankaHomeDesktop from "../assets/uiux/lankanbeyond-home-desktop.webp";
+import lankaHomeMobile from "../assets/uiux/lankanbeyond-home-mobile.webp";
+import lankaStoryDesktop from "../assets/uiux/lankanbeyond-story-desktop.webp";
+import lankaStoryMobile from "../assets/uiux/lankanbeyond-story-mobile.webp";
+import lankaPackageDesktop from "../assets/uiux/lankanbeyond-package-desktop.webp";
+import lankaPackageMobile from "../assets/uiux/lankanbeyond-package-mobile.webp";
+import lankaEnquireDesktop from "../assets/uiux/lankanbeyond-enquire-desktop.webp";
+import lankaEnquireMobile from "../assets/uiux/lankanbeyond-enquire-mobile.webp";
+import lankaVisaDesktop from "../assets/uiux/lankanbeyond-visa-desktop.webp";
+import lankaVisaMobile from "../assets/uiux/lankanbeyond-visa-mobile.webp";
 
 type ViewMode = "desktop" | "mobile";
 
@@ -68,6 +82,14 @@ interface UIUXProject {
    notes: ThoughtNote[];
    /** Optional "What I designed" checklist, for big projects. */
    highlights?: string[];
+   /** Heading for the highlights list. Defaults to "What I designed". */
+   highlightsTitle?: string;
+   /** Optional research block (problem, gap, approach), shown before the notes. */
+   research?: { title: string; points: { label: string; text: string }[] };
+   /** Heading for the notes list. Defaults to "My thought process". */
+   notesTitle?: string;
+   /** Optional link to the source code. */
+   codeUrl?: string;
    /** Optional line under the card, e.g. "full project available on request". */
    footnote?: string;
    /** Optional: "In Progress", "Concept", etc. Omit when finished. */
@@ -93,8 +115,27 @@ const projects: UIUXProject[] = [
       credits: [
          "UI/UX Design Intern",
          "Precise Digital Economy Co., Ltd.",
+         "Dec 2025 – May 2026",
       ],
       tools: ["Figma"],
+      research: {
+         title: "The brief & research",
+         points: [
+            {
+               label: "The brief",
+               text: "An IoT platform where admins monitor devices and build live dashboards from widgets.",
+            },
+            {
+               label: "Research",
+               text: "Studied the requirement docs and reviewed similar platforms like ThingsBoard and Elementor.",
+            },
+            {
+               label: "Process",
+               text: "Sitemap & user flows → wireframes → high-fidelity UI & design system → developer handoff.",
+            },
+         ],
+      },
+      notesTitle: "Key design decisions",
       pages: [
          {
             name: "Overview",
@@ -145,8 +186,8 @@ const projects: UIUXProject[] = [
          "Happy to walk through the full project in an interview.",
       notes: [
          {
-            title: "Structure before screens",
-            text: "A complex product needed a clear map first, so I planned the sitemap and user flows before designing any interface.",
+            title: "The first design is rarely the final one",
+            text: "Wireframes went through several feedback rounds with the team. The widget config panel changed the most.",
          },
          {
             title: "A reusable widget system",
@@ -167,78 +208,102 @@ const projects: UIUXProject[] = [
       ],
    },
    {
-      kind: "webapp",
-      liveUrl: "https://beaconn-virid.vercel.app",
-      demoLogin: "napat@student.th · Demo1234!",
-      title: "Beaconn",
+      title: "Lanka N Beyond",
       summary:
-         "Career development platform where students find internships and career events, and organisations post and manage them. My 16-week IT capstone project.",
-      credits: ["Capstone project", "UI/UX design & full-stack build"],
-      tools: ["React", "Tailwind CSS", "Node.js", "MongoDB"],
+         "Website for a Sri Lankan tour company, designed to show travellers the beauty of the island and everything the company can plan for them.",
+      credits: ["Client project"],
+      tools: ["Figma"],
+      liveUrl: "https://lankanbeyond.com/",
+      research: {
+         title: "The brief & research",
+         points: [
+            {
+               label: "The brief",
+               text: "Showcase Sri Lanka's beauty and things to do, and turn visitors into trip enquiries.",
+            },
+            {
+               label: "Research",
+               text: "Researched the country's main attractions, culture and landscapes, and how other travel sites present their tours.",
+            },
+            {
+               label: "Key insight",
+               text: "Visitors need to know straight away this is a company that plans whole trips, so the tour packages come right after the hero.",
+            },
+         ],
+      },
+      highlightsTitle: "What I designed",
+      highlights: [
+         "Home, Our Story & Visa Support",
+         "Tour package pages",
+         "Enquiry & brochure overlays",
+         "Form success states",
+         "Desktop & mobile layouts",
+         "Theme matched to the brand",
+      ],
+      notesTitle: "Key design decisions",
       pages: [
          {
-            name: "Landing",
-            desktop: beaconnLanding,
+            name: "Figma file",
+            image: lankaFigma,
             caption:
-               "Says what Beaconn does in one line, with live counts and a preview built from real listings.",
+               "The full Figma file: every page on desktop and mobile, plus the brochure and enquiry overlays with their success states.",
          },
          {
-            name: "Internships",
-            desktop: beaconnFind,
+            name: "Home",
+            desktop: lankaHomeDesktop,
+            mobile: lankaHomeMobile,
             caption:
-               "Student view. A Coming up strip for the next event and deadline, then internships with stipend, mode and deadline at a glance.",
+               "Leads with the island itself: big photography, the four tour packages straight after the hero, then culture, spice and wildlife stories.",
          },
          {
-            name: "Events",
-            desktop: beaconnEvents,
+            name: "Our story",
+            desktop: lankaStoryDesktop,
+            mobile: lankaStoryMobile,
             caption:
-               "Student view. Calendar date stubs and a seats-left bar, so it is clear when an event is and whether there is still room.",
+               "The company's story told as four travel chapters, with polaroid-style photos, then the three ways to travel with them.",
          },
          {
-            name: "Saved",
-            desktop: beaconnSaved,
+            name: "Tour package",
+            desktop: lankaPackageDesktop,
+            mobile: lankaPackageMobile,
             caption:
-               "Student view. Saved internships and events in one place, ready to apply or register later.",
+               "Each tour at a glance, then a day-by-day itinerary with travel times and a route map, so travellers know exactly what they're booking.",
          },
          {
-            name: "My applications",
-            desktop: beaconnApplications,
+            name: "Enquiry",
+            desktop: lankaEnquireDesktop,
+            mobile: lankaEnquireMobile,
             caption:
-               "Student view. Every application and its status in one tracker, so students do not need follow-up emails.",
+               "There's no online booking, so every “Book Now” leads here. Only name and email are required, to keep the first step easy.",
          },
          {
-            name: "Employer dashboard",
-            desktop: beaconnEmployer,
+            name: "Visa support",
+            desktop: lankaVisaDesktop,
+            mobile: lankaVisaMobile,
             caption:
-               "Organisation view. Real numbers with weekly change, the latest applicants and each role's deadline and applicant count.",
-         },
-         {
-            name: "Manage events",
-            desktop: beaconnManageEvents,
-            caption:
-               "Organisation view. Every posted event with its registrations, and quick edit, close and delete actions.",
+               "A plain-language visa guide with a fee checker by country, answering one of the first questions overseas travellers have.",
          },
       ],
       notes: [
          {
-            title: "Two roles, two experiences",
-            text: "Students and organisations each get their own dashboard, and the navigation only shows what's relevant to each role.",
+            title: "Let the country sell itself",
+            text: "The client wanted visitors to see how beautiful Sri Lanka is, so full-width photography carries the pages and the copy stays short.",
          },
          {
-            title: "Search comes first",
-            text: "Finding an opportunity is the main job for students, so search and filters sit at the top of their dashboard.",
+            title: "A theme that matches the brand",
+            text: "Deep teal and warm saffron from the brand, with serif headings and handwritten accents, give the site the feel of a travel journal.",
          },
          {
-            title: "Everything tracked in one place",
-            text: "Saved internships and events, applications and event registrations each have a page, with clear statuses instead of guesswork.",
+            title: "Every path ends in an enquiry",
+            text: "Bookings happen by conversation, so Book Now, WhatsApp and enquiry buttons appear throughout and open one simple form.",
          },
          {
-            title: "Built to be clear, not busy",
-            text: "One navy for actions, neutral greys for everything else and colour only for status and deadlines keep a data-heavy platform easy to scan.",
+            title: "Never lose your place",
+            text: "Brochures and enquiry forms open as overlays on top of the page, with a clear success message once a form is sent.",
          },
          {
-            title: "Designed and built end to end",
-            text: "I designed the interface and built it with React, Tailwind, Node.js, Express and MongoDB, including role-based access.",
+            title: "Answer the worries before they ask",
+            text: "Day-by-day itineraries, route maps and a visa guide cover the practical questions that stop people from booking a trip abroad.",
          },
       ],
    },
@@ -246,7 +311,7 @@ const projects: UIUXProject[] = [
       title: "Spill The Tea",
       summary:
          "Website for a neighbourhood café, designed for desktop and mobile.",
-      credits: ["UI/UX design: me", "Development: team project"],
+      credits: [],
       tools: ["Figma"],
       pages: [
          {
@@ -296,6 +361,109 @@ const projects: UIUXProject[] = [
       ],
    },
 ];
+
+const beaconn: UIUXProject = {
+   kind: "webapp",
+   liveUrl: "https://beaconn-virid.vercel.app",
+   demoLogin: "napat@student.th · Demo1234!",
+   title: "Beaconn",
+   summary:
+      "Career development platform where students find internships and career events, and organisations post and manage them. My 16-week IT capstone project.",
+   credits: ["Capstone project", "UI/UX design & full-stack build"],
+   tools: ["React", "Tailwind CSS", "Node.js", "Express", "MongoDB"],
+   codeUrl: "https://github.com/Praneetaa/Internship-Portal",
+   research: {
+      title: "The research",
+      points: [
+         {
+            label: "The problem",
+            text: "Internships and career events are scattered across many sites, so students miss opportunities.",
+         },
+         {
+            label: "The gap",
+            text: "Job portals list openings, but few help students and fresh grads build confidence and a career-ready profile. Of 10 studies and portals I reviewed, none combined internships, events and profiles.",
+         },
+         {
+            label: "My answer",
+            text: "One free platform for internships, workshops and career events, made for students aged 18–30.",
+         },
+      ],
+   },
+   notesTitle: "Key design decisions",
+   footnote:
+      "Next: usability testing with 20+ students, then AI resume feedback and smart matching.",
+   highlightsTitle: "What I built",
+   highlights: [
+      "Student & organisation accounts",
+      "Role-based access",
+      "Internship search & filters",
+      "Application status tracker",
+      "Event sign-ups with seat limits",
+      "Employer dashboard with live stats",
+   ],
+   pages: [
+      {
+         name: "Landing",
+         desktop: beaconnLanding,
+         caption:
+            "Says what Beaconn does in one line, with live counts and a preview built from real listings.",
+      },
+      {
+         name: "Internships",
+         desktop: beaconnFind,
+         caption:
+            "Student view. A Coming up strip for the next event and deadline, then internships with stipend, mode and deadline at a glance.",
+      },
+      {
+         name: "Events",
+         desktop: beaconnEvents,
+         caption:
+            "Student view. Calendar date stubs and a seats-left bar, so it is clear when an event is and whether there is still room.",
+      },
+      {
+         name: "Saved",
+         desktop: beaconnSaved,
+         caption:
+            "Student view. Saved internships and events in one place, ready to apply or register later.",
+      },
+      {
+         name: "My applications",
+         desktop: beaconnApplications,
+         caption:
+            "Student view. Every application and its status in one tracker, so students do not need follow-up emails.",
+      },
+      {
+         name: "Employer dashboard",
+         desktop: beaconnEmployer,
+         caption:
+            "Organisation view. Real numbers with weekly change, the latest applicants and each role's deadline and applicant count.",
+      },
+      {
+         name: "Manage events",
+         desktop: beaconnManageEvents,
+         caption:
+            "Organisation view. Every posted event with its registrations, and quick edit, close and delete actions.",
+      },
+   ],
+   notes: [
+      {
+         title: "Two roles, two experiences",
+         text: "Students and organisations each get their own dashboard, and the navigation only shows what's relevant to each role.",
+      },
+      {
+         title: "Search comes first",
+         text: "Finding an opportunity is the main job for students, so search and filters sit at the top of their dashboard.",
+      },
+      {
+         title: "Everything tracked in one place",
+         text: "Saved internships and events, applications and event registrations each have a page, with clear statuses instead of guesswork.",
+      },
+      {
+         title: "Built to be clear, not busy",
+         text: "One navy for actions, neutral greys for everything else and colour only for status and deadlines keep a data-heavy platform easy to scan.",
+      },
+   ],
+};
 
 const tabClass = (isActive: boolean) =>
    `flex shrink-0 whitespace-nowrap items-center gap-2 px-4 py-2 rounded-[var(--radius-btn)] text-sm font-semibold capitalize transition-smooth ${
@@ -550,10 +718,164 @@ function ImageLightbox({
    );
 }
 
+const NOTES_PER_PAGE = 2;
+
+const pageLabel =
+   "text-xs font-semibold uppercase tracking-wider text-accent m-0 mb-4";
+
+/**
+ * Research, highlights and design decisions shown one page at a time,
+ * like flipping through a short book, instead of one long column.
+ */
+function ProjectPages({ project }: { project: UIUXProject }) {
+   const [current, setCurrent] = useState(0);
+
+   const pages: { title: string; content: ReactNode }[] = [];
+
+   if (project.research) {
+      pages.push({
+         title: project.research.title,
+         content: (
+            <dl className="space-y-4 m-0">
+               {project.research.points.map((point) => (
+                  <div key={point.label} className="pl-4 border-l-2 border-primary/50">
+                     <dt className="text-sm font-semibold text-foreground">
+                        {point.label}
+                     </dt>
+                     <dd className="m-0 mt-1 text-sm text-muted-foreground leading-relaxed">
+                        {point.text}
+                     </dd>
+                  </div>
+               ))}
+            </dl>
+         ),
+      });
+   }
+
+   if (project.highlights) {
+      pages.push({
+         title: project.highlightsTitle ?? "What I designed",
+         content: (
+            <ul className="list-none p-0 m-0 grid sm:grid-cols-2 gap-x-4 gap-y-2.5">
+               {project.highlights.map((item) => (
+                  <li key={item} className="flex items-center gap-2 text-sm text-foreground/85">
+                     <Check size={14} className="text-primary shrink-0" />
+                     {item}
+                  </li>
+               ))}
+            </ul>
+         ),
+      });
+   }
+
+   // Two notes per page keeps every page about the same length.
+   const notesTitle = project.notesTitle ?? "My thought process";
+   for (let start = 0; start < project.notes.length; start += NOTES_PER_PAGE) {
+      pages.push({
+         title: notesTitle,
+         content: (
+         <ol className="space-y-4 list-none p-0 m-0">
+            {project.notes.slice(start, start + NOTES_PER_PAGE).map((note, i) => (
+               <li key={note.title} className="flex gap-3">
+                  <span className="shrink-0 w-7 h-7 rounded-full bg-primary/15 border border-primary/30 text-primary text-xs font-bold flex items-center justify-center">
+                     {start + i + 1}
+                  </span>
+                  <div>
+                     <p className="font-semibold text-foreground text-sm m-0">
+                        {note.title}
+                     </p>
+                     <p className="text-sm text-muted-foreground leading-relaxed mt-1 mb-0">
+                        {note.text}
+                     </p>
+                  </div>
+               </li>
+            ))}
+         </ol>
+         ),
+      });
+   }
+
+   const total = pages.length;
+   const go = (i: number) => setCurrent(Math.max(0, Math.min(total - 1, i)));
+
+   if (total === 1) {
+      return (
+         <div>
+            <p className={pageLabel}>{pages[0].title}</p>
+            {pages[0].content}
+         </div>
+      );
+   }
+
+   return (
+      <div className="rounded-xl border border-border bg-secondary/30 p-4 md:p-5">
+         {/* All pages share one grid cell, so the box is as tall as the
+             longest page and never jumps when flipping. */}
+         <div className="grid">
+            {pages.map((page, i) => (
+               <div
+                  key={i}
+                  aria-hidden={i !== current}
+                  className={`[grid-area:1/1] transition-opacity duration-300 ${
+                     i === current ? "opacity-100" : "opacity-0 invisible"
+                  }`}
+               >
+                  <div className="flex items-baseline justify-between gap-3 mb-4">
+                     <p className={`${pageLabel} !mb-0`}>{page.title}</p>
+                     <span className="text-[11px] font-semibold text-muted-foreground tabular-nums">
+                        {String(i + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+                     </span>
+                  </div>
+                  {page.content}
+               </div>
+            ))}
+         </div>
+
+         <div className="flex items-center justify-between gap-3 mt-5 pt-4 border-t border-border">
+            <button
+               type="button"
+               onClick={() => go(current - 1)}
+               disabled={current === 0}
+               className="inline-flex items-center gap-1 text-sm font-semibold text-primary disabled:text-muted-foreground/40 disabled:cursor-not-allowed"
+            >
+               <ChevronLeft size={16} />
+               Prev
+            </button>
+            <div className="flex items-center gap-2">
+               {pages.map((page, i) => (
+                  <button
+                     key={i}
+                     type="button"
+                     onClick={() => go(i)}
+                     aria-label={`Page ${i + 1}: ${page.title}`}
+                     aria-current={i === current}
+                     className={`h-2 rounded-full transition-all ${
+                        i === current ? "w-6 bg-primary" : "w-2 bg-foreground/20 hover:bg-foreground/40"
+                     }`}
+                  />
+               ))}
+            </div>
+            <button
+               type="button"
+               onClick={() => go(current + 1)}
+               disabled={current === total - 1}
+               className="inline-flex items-center gap-1 text-sm font-semibold text-primary disabled:text-muted-foreground/40 disabled:cursor-not-allowed"
+            >
+               Next
+               <ChevronRight size={16} />
+            </button>
+         </div>
+      </div>
+   );
+}
+
 function ProjectShowcase({ project }: { project: UIUXProject }) {
    return (
       <div className="glass-card-feature p-5 md:p-8 grid lg:grid-cols-[1.35fr_1fr] gap-8 lg:gap-10 items-start">
-         <ScreenViewer project={project} />
+         {/* Screens stay in view while the longer text column scrolls (desktop) */}
+         <div className="min-w-0 lg:sticky lg:top-28">
+            <ScreenViewer project={project} />
+         </div>
 
          <div className="text-left">
             <div className="flex flex-wrap items-center gap-2 mb-2">
@@ -579,47 +901,9 @@ function ProjectShowcase({ project }: { project: UIUXProject }) {
                ))}
             </div>
 
-            {project.highlights && (
-               <div className="mb-7">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-accent mb-3">
-                     What I designed
-                  </p>
-                  <ul className="list-none p-0 m-0 grid sm:grid-cols-2 gap-x-4 gap-y-2">
-                     {project.highlights.map((item) => (
-                        <li
-                           key={item}
-                           className="flex items-center gap-2 text-sm text-foreground/85"
-                        >
-                           <Check size={14} className="text-primary shrink-0" />
-                           {item}
-                        </li>
-                     ))}
-                  </ul>
-               </div>
-            )}
+            <ProjectPages project={project} />
 
-            <p className="text-xs font-semibold uppercase tracking-wider text-accent mb-4">
-               My thought process
-            </p>
-            <ol className="space-y-4 list-none p-0 m-0">
-               {project.notes.map((note, i) => (
-                  <li key={note.title} className="flex gap-3">
-                     <span className="shrink-0 w-7 h-7 rounded-full bg-primary/15 border border-primary/30 text-primary text-xs font-bold flex items-center justify-center">
-                        {i + 1}
-                     </span>
-                     <div>
-                        <p className="font-semibold text-foreground text-sm m-0">
-                           {note.title}
-                        </p>
-                        <p className="text-sm text-muted-foreground leading-relaxed mt-1 mb-0">
-                           {note.text}
-                        </p>
-                     </div>
-                  </li>
-               ))}
-            </ol>
-
-            {(project.liveUrl || project.prototypeUrl) && (
+            {(project.liveUrl || project.prototypeUrl || project.codeUrl) && (
                <div className="flex flex-wrap gap-3 mt-6">
                   {project.liveUrl && (
                      <a
@@ -642,6 +926,17 @@ function ProjectShowcase({ project }: { project: UIUXProject }) {
                         View Prototype
                      </a>
                   )}
+                  {project.codeUrl && (
+                     <a
+                        href={project.codeUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="btn btn-outline inline-flex items-center gap-2"
+                     >
+                        <SiGithub size={18} />
+                        View code
+                     </a>
+                  )}
                </div>
             )}
 
@@ -661,6 +956,18 @@ function ProjectShowcase({ project }: { project: UIUXProject }) {
             )}
          </div>
       </div>
+   );
+}
+
+/** Beaconn, featured at the top of "Websites & code". */
+export function CapstoneFeature() {
+   return (
+      <Reveal className="max-w-6xl mx-auto mb-16 text-left">
+         <p className="text-xs font-semibold uppercase tracking-wider text-accent mb-5">
+            Featured · Capstone project
+         </p>
+         <ProjectShowcase project={beaconn} />
+      </Reveal>
    );
 }
 

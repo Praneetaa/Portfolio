@@ -130,7 +130,7 @@ const Services = () => {
                <div className="lg:sticky lg:top-28 text-left">
                   <Reveal>
                      <SectionHeader
-                        number="03"
+                        number="06"
                         label="Services"
                         title="What I can do for you"
                         className="mb-4"

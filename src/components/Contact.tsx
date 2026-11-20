@@ -72,7 +72,7 @@ const Contact = () => {
    return (
       <section id="contact" className="relative py-20 overflow-hidden">
          <div className="container-padding w-full">
-            <SectionHeader number="09" label="Contact" title="Let's work together" subtitle="Have a project in mind, a role to fill, or just want to say hello? I'd love to hear from you." note="say hi!" />
+            <SectionHeader number="07" label="Contact" title="Let's work together" subtitle="Have a project in mind, a role to fill, or just want to say hello? I'd love to hear from you." note="say hi!" />
 
             <Reveal
                as="div"
