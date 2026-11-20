@@ -53,7 +53,7 @@ const DesignProcess = () => {
    return (
       <section id="process" className="relative py-20 overflow-hidden">
          <div className="container-padding">
-            <SectionHeader number="08" label="Process" title="How I work" subtitle="From first idea to a live, working site" />
+            <SectionHeader number="07" label="Process" title="How I work" subtitle="From first idea to a live, working site" />
 
             <Reveal
                delay={100}
