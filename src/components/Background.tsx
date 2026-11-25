@@ -19,6 +19,13 @@ import {
    SiPython,
    SiWordpress,
    SiElementor,
+   SiVite,
+   SiAxios,
+   SiMongoose,
+   SiJsonwebtokens,
+   SiDocker,
+   SiVercel,
+   SiNpm,
 } from "react-icons/si";
 import { FaJava } from "react-icons/fa6";
 import {
@@ -76,6 +83,8 @@ const technicalSkills: Record<TabType, SkillGroup[]> = {
             { name: "Tailwind CSS", icon: SiTailwindcss, color: "#38BDF8" },
             { name: "Node.js", icon: SiNodedotjs, color: "#339933" },
             { name: "Express.js", icon: SiExpress, color: "currentColor" },
+            { name: "Vite", icon: SiVite, color: "#646CFF" },
+            { name: "Axios", icon: SiAxios, color: "#7C5CFF" },
          ],
       },
       {
@@ -84,6 +93,8 @@ const technicalSkills: Record<TabType, SkillGroup[]> = {
             { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
             { name: "Supabase", icon: SiSupabase, color: "#3ECF8E" },
             { name: "MySQL", icon: SiMysql, color: "#4479A1" },
+            { name: "Mongoose", icon: SiMongoose, color: "#C2413A" },
+            { name: "JWT Auth", icon: SiJsonwebtokens, color: "#FB015B" },
          ],
       },
       {
@@ -91,6 +102,9 @@ const technicalSkills: Record<TabType, SkillGroup[]> = {
          skills: [
             { name: "APIs", icon: Boxes, color: "#A78BFA" },
             { name: "GitHub Collaboration", icon: SiGithub, color: "currentColor" },
+            { name: "Docker", icon: SiDocker, color: "#2496ED" },
+            { name: "Vercel", icon: SiVercel, color: "currentColor" },
+            { name: "npm", icon: SiNpm, color: "#CB3837" },
             { name: "WordPress", icon: SiWordpress, color: "#21759B" },
             { name: "Elementor", icon: SiElementor, color: "#92003B" },
          ],

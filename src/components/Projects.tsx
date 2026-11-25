@@ -7,7 +7,7 @@ import SectionHeader from "./SectionHeader";
 export default function Projects() {
    return (
       <>
-         <section id="uiux-projects" className="relative py-20 overflow-hidden">
+         <section id="uiux-projects" className="relative py-20 overflow-x-clip">
             <div className="container-padding">
                <SectionHeader number="03" label="UI/UX" title="UI/UX projects" subtitle="Interfaces I've designed, and the thinking behind them" note="every screen designed by me" />
                <UIUXProjects />

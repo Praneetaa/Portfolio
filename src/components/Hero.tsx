@@ -18,7 +18,7 @@ const Hero = () => {
    return (
       <>
       <section id="about" className="relative overflow-hidden">
-         <div className="container-padding relative min-h-screen flex items-center pt-16 pb-8">
+         <div className="container-padding relative min-h-screen flex items-center pt-28 pb-12">
             <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center w-full">
                {/* Left — ID card, drops in and swings on load, flips to socials on hover */}
                <div className="flex justify-center">

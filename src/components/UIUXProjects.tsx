@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { Fragment, useEffect, useRef, useState, type ReactNode } from "react";
 import {
    Monitor,
    Smartphone,
@@ -872,8 +872,7 @@ function ProjectPages({ project }: { project: UIUXProject }) {
 function ProjectShowcase({ project }: { project: UIUXProject }) {
    return (
       <div className="glass-card-feature p-5 md:p-8 grid lg:grid-cols-[1.35fr_1fr] gap-8 lg:gap-10 items-start">
-         {/* Screens stay in view while the longer text column scrolls (desktop) */}
-         <div className="min-w-0 lg:sticky lg:top-28">
+         <div className="min-w-0">
             <ScreenViewer project={project} />
          </div>
 
@@ -971,14 +970,182 @@ export function CapstoneFeature() {
    );
 }
 
+/** Where stacked cards stick: just below the fixed menu bar. */
+const STACK_TOP = 104;
+/** Each card sticks a little lower, so earlier ones peek out like file tabs. */
+const STACK_STEP = 18;
+
+const isDesktop = () => window.matchMedia("(min-width: 1024px)").matches;
+
+/**
+ * UI/UX projects as a stack of files: on desktop each card sticks under the
+ * menu and the next one slides over it as you scroll. A side index (a sticky
+ * bar of names on phones) shows where you are and jumps to any project.
+ */
 export default function UIUXProjects() {
+   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);
+   const anchorRefs = useRef<(HTMLDivElement | null)[]>([]);
+   const [tops, setTops] = useState<number[]>([]);
+   const [active, setActive] = useState(0);
+
+   // Where each card sticks. A card taller than the screen sticks with its
+   // bottom edge in view instead, so its buttons are never hidden.
+   useEffect(() => {
+      const measure = () =>
+         setTops(
+            cardRefs.current.map((el, i) => {
+               const ideal = STACK_TOP + i * STACK_STEP;
+               const height = el?.offsetHeight ?? 0;
+               return Math.min(ideal, window.innerHeight - height - 16);
+            })
+         );
+      measure();
+      const observer = new ResizeObserver(measure);
+      cardRefs.current.forEach((el) => el && observer.observe(el));
+      window.addEventListener("resize", measure);
+      return () => {
+         observer.disconnect();
+         window.removeEventListener("resize", measure);
+      };
+   }, []);
+
+   // The active project is the last one whose spot in the page has scrolled
+   // past the middle of the screen.
+   useEffect(() => {
+      let frame = 0;
+      const update = () => {
+         frame = 0;
+         const line = window.innerHeight * 0.45;
+         let index = 0;
+         anchorRefs.current.forEach((anchor, i) => {
+            if (anchor && anchor.getBoundingClientRect().top <= line) index = i;
+         });
+         setActive(index);
+      };
+      const onScroll = () => {
+         if (!frame) frame = requestAnimationFrame(update);
+      };
+      update();
+      window.addEventListener("scroll", onScroll, { passive: true });
+      return () => {
+         window.removeEventListener("scroll", onScroll);
+         cancelAnimationFrame(frame);
+      };
+   }, []);
+
+   const jumpTo = (i: number) => {
+      const anchor = anchorRefs.current[i];
+      if (!anchor) return;
+      // Phones: clear the menu bar plus the sticky bar of project names.
+      // Desktop: land with the title in view, even for cards taller than the screen.
+      const offset = isDesktop() ? STACK_TOP + i * STACK_STEP : 130;
+      window.scrollTo({
+         top: anchor.getBoundingClientRect().top + window.scrollY - offset,
+         // Respect visitors who ask their device for less motion.
+         behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+            ? "auto"
+            : "smooth",
+      });
+   };
+
    return (
-      <div className="max-w-6xl mx-auto space-y-10">
-         {projects.map((project, i) => (
-            <Reveal key={project.title} delay={i * 100}>
-               <ProjectShowcase project={project} />
-            </Reveal>
-         ))}
+      <div className="max-w-6xl mx-auto lg:grid lg:grid-cols-[150px_minmax(0,1fr)] lg:gap-8">
+         {/* Side index (desktop) */}
+         <nav aria-label="UI/UX projects" className="hidden lg:block">
+            <ol className="sticky top-28 list-none p-0 m-0 space-y-1 border-l border-border">
+               {projects.map((project, i) => {
+                  const isActive = i === active;
+                  return (
+                     <li key={project.title}>
+                        <button
+                           type="button"
+                           onClick={() => jumpTo(i)}
+                           aria-current={isActive ? "true" : undefined}
+                           className={`-ml-px w-full text-left pl-4 py-2 border-l-2 transition-colors ${
+                              isActive
+                                 ? "border-primary text-foreground"
+                                 : "border-transparent text-muted-foreground hover:text-foreground"
+                           }`}
+                        >
+                           <span
+                              className={`block text-xs font-semibold tabular-nums ${
+                                 isActive ? "text-primary" : ""
+                              }`}
+                           >
+                              {String(i + 1).padStart(2, "0")}
+                           </span>
+                           <span className="block text-sm font-semibold leading-snug">
+                              {project.title}
+                           </span>
+                        </button>
+                     </li>
+                  );
+               })}
+            </ol>
+         </nav>
+
+         {/* Bar of project names (phones and tablets) */}
+         <nav
+            aria-label="UI/UX projects"
+            className="lg:hidden sticky top-[73px] md:top-[81px] z-30 -mx-6 px-6 mb-6 flex gap-6 overflow-x-auto border-b border-border bg-background/95 backdrop-blur"
+         >
+            {projects.map((project, i) => {
+               const isActive = i === active;
+               return (
+                  <button
+                     key={project.title}
+                     type="button"
+                     onClick={() => jumpTo(i)}
+                     aria-current={isActive ? "true" : undefined}
+                     className={`shrink-0 py-3 -mb-px border-b-2 text-sm font-semibold transition-colors ${
+                        isActive
+                           ? "border-primary text-foreground"
+                           : "border-transparent text-muted-foreground"
+                     }`}
+                  >
+                     <span className="tabular-nums mr-1.5">
+                        {String(i + 1).padStart(2, "0")}
+                     </span>
+                     {project.title}
+                  </button>
+               );
+            })}
+         </nav>
+
+         {/* The stack. Cards must be direct children of this one box so each
+             can stay stuck while the ones after it slide over. */}
+         <div className="min-w-0">
+            {projects.map((project, i) => {
+               const isCovered = i < active;
+               return (
+                  <Fragment key={project.title}>
+                     {/* Marks the card's place in the page, for the index */}
+                     <div
+                        ref={(el) => {
+                           anchorRefs.current[i] = el;
+                        }}
+                     />
+                     <div
+                        ref={(el) => {
+                           cardRefs.current[i] = el;
+                        }}
+                        className={`lg:sticky ${i < projects.length - 1 ? "mb-10" : ""}`}
+                        style={{ top: tops[i] ?? STACK_TOP + i * STACK_STEP }}
+                     >
+                        <div
+                           className={`origin-top transition-[transform,filter] duration-500 ease-out ${
+                              isCovered ? "lg:scale-[0.97] lg:brightness-75" : ""
+                           }`}
+                        >
+                           <Reveal delay={i * 100}>
+                              <ProjectShowcase project={project} />
+                           </Reveal>
+                        </div>
+                     </div>
+                  </Fragment>
+               );
+            })}
+         </div>
       </div>
    );
 }
